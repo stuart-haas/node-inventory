@@ -1,0 +1,25 @@
+{
+  "name": "inventory",
+  "version": "1.0.0",
+  "description": "Node and Express inventory application",
+  "main": "app/app.js",
+  "scripts": {
+    "start": "nodemon -e css,ejs,js,json --watch app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/stuart-haas/node-inventory.git"
+  },
+  "author": "Stuart Haas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stuart-haas/node-inventory/issues"
+  },
+  "homepage": "https://github.com/stuart-haas/node-inventory#readme",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.13",
+    "reload": "^2.2.2"
+  }
+}
