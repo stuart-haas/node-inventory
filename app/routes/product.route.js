@@ -1,9 +1,14 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 
-const product_controller = require('../controllers/product.controller');
+var product_controller = require('../controllers/product.controller');
 
-router.get('/test', product_controller.test);
+router.get('/', (req, res) =>
+{
+  res.render('products', {
+    pageHeader: 'Products',
+  });
+});
 
 router.post('/create', product_controller.product_create);
 

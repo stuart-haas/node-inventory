@@ -3,9 +3,15 @@ html
   head
     title= siteTitle
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
     link(rel="stylesheet", href="/css/styles.css")
   body
-    block header
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      div.collapse.navbar-collapse#navbarNav
+        ul.navbar-nav
+          li.nav-item
+            a(href="/").nav-link.active Dashboard
+          li.nav-item
+            a(href="/products").nav-link Products
     block page
-    block footer
     script(type="text/javascript", src="/reload/reload.js")

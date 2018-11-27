@@ -1,4 +1,13 @@
 extends layout
 
 block page
-  h1=pageHeader
+  table.table.table-striped
+    thead
+      th Name
+      th Price
+    tbody
+      each product in products
+        tr
+          td=product.name
+          td=product.price
+        
