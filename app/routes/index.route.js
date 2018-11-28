@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 
 router.get('/dashboard', (req, res) =>
 {
-  var path = req.url.replace(/\//g, "");
+  var path = req.path.replace(/\//g, "");
 
   Promise.all([
     product_controller.product_get_low_stock(req, res),
@@ -17,6 +17,7 @@ router.get('/dashboard', (req, res) =>
   ])
   .then(function(result) {
     res.render('index', {
+      pageTitle: "Dashboard",
       path: path,
       products_low_stock: result[0],
       products_highest_price: result[1]

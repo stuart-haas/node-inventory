@@ -5,10 +5,11 @@ exports.product_get_all = (req, res) => {
     var status = req.query.status;
     var id = req.query.id;
     var name = req.query.name;
-    var path = req.url.replace(/\//g, "");
+    var path = req.path.replace(/\//g, "");
 
     res.render('products', {
       path: path,
+      pageTitle: "Products",
       products: products,
       status: status,
       id: id,
@@ -29,13 +30,16 @@ exports.product_get = (req, res) => {
   Product.findById(req.params.id, (err, product) => {
     if (err) return next(err);
     res.render('products/modify', {
+      pageTitle: "Modify Product",
       product: product
     });
   });
 };
 
 exports.product_new = (req, res) => {
-  res.render('products/new');
+  res.render('products/new', {
+    pageTitle: "New Product"
+  });
 };
 
 exports.product_create = (req, res, next) => {
@@ -46,9 +50,7 @@ exports.product_create = (req, res, next) => {
   });
 
   product.save((err) => {
-    if (err) {
-      return next(err);
-    }
+    if (err) return next(err);
     res.redirect('/products/?status=created&name=' + req.body.name);
   })
 };
