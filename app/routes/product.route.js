@@ -1,15 +1,18 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var product_controller = require('../controllers/product.controller');
+const product_controller = require('../controllers/product.controller');
 
-router.get('/', (req, res) =>
-{
-  res.render('products', {
-    pageHeader: 'Products',
-  });
-});
+router.get('/products', product_controller.product_get_all);
 
-router.post('/create', product_controller.product_create);
+router.get('/products/new', product_controller.product_new);
+
+router.post('/products/create', product_controller.product_create);
+
+router.get('/products/:id', product_controller.product_get);
+
+router.post('/products/:id/update', product_controller.product_update);
+
+router.post('/products/:id/delete', product_controller.product_delete);
 
 module.exports = router;

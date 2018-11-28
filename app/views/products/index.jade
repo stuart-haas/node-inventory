@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  if(status == 'created') 
+    p Product #{name} created!
+  if(status == 'updated')
+    p Product #{id} updated!
+  if(status == 'deleted') 
+    p Product #{id} deleted!
+  div.btn-group
+    a(href="/products/new").btn.btn-success New Product
+  table.table.table-striped.table-bordered.mt-5
+      thead
+        th Name
+        th Price
+        th Quantity
+        th Total
+      tbody
+        each product in products
+          tr
+            td
+              a(href="/products/#{product._id}")=product.name
+            td='$'+product.price
+            td=product.quantity
+            td='$'+total(product.price, product.quantity)

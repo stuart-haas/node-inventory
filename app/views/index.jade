@@ -1,13 +1,8 @@
 extends layout
 
-block page
-  table.table.table-striped
-    thead
-      th Name
-      th Price
-    tbody
-      each product in products
-        tr
-          td=product.name
-          td=product.price
-        
+block content
+  div.row
+    div.col
+      include ./includes/products_low_stock.jade
+    div.col
+      include ./includes/products_highest_price.jade

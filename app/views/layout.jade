@@ -10,8 +10,9 @@ html
       div.collapse.navbar-collapse#navbarNav
         ul.navbar-nav
           li.nav-item
-            a(href="/").nav-link.active Dashboard
+            a(href="/", class="#{path == 'dashboard' ? 'active' : '' }").nav-link Dashboard
           li.nav-item
-            a(href="/products").nav-link Products
-    block page
+            a(href="/products" class="#{path == 'products' ? 'active' : '' }").nav-link Products
+    div.container.mt-5
+      block content
     script(type="text/javascript", src="/reload/reload.js")

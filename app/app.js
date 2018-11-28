@@ -20,27 +20,30 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"))
 // Set server port
 app.set('port', process.env.PORT || 3000);
 
-// Use jade for view engine
+// Set jade for view engine
 app.set('view engine', 'jade');
 app.set('views', 'app/views');
 
-// Set locals
+// Set global view variables
 app.locals.siteTitle = "Inventory";
+app.locals.total = (x1, x2) => {
+  return x1 * x2;
+}
 
-// Initialize JSON parser for post requests
+// Initialize body parser for post requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// Initialize router
+// Initialize and set router
 const router = express.Router();
 app.use(router)
 
-// Serve static content
+// Serve static files
 app.use(express.static('app/static'));
 
 // Add routes
-app.use('/', index);
-app.use('/products', products);
+app.use(index);
+app.use(products);
 
 // Add listener to server
 app.listen(app.get('port'), (req, res) =>

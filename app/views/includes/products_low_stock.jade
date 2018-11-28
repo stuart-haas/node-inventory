@@ -1,0 +1,5 @@
+h3 Low Stock (< 10)
+ul.list-group
+    each product in products_low_stock
+      li.list-group-item
+        a(href="/products/#{product._id}")=product.name + " (" + product.quantity + ")"

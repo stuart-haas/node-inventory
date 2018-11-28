@@ -1,20 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/product.model');
 
-router.get('/', (req, res) =>
+const product_controller = require('../controllers/product.controller');
+
+router.get('/', (req, res) => {
+  res.status(301).redirect('/dashboard');
+});
+
+router.get('/dashboard', (req, res) =>
 {
+  var path = req.url.replace(/\//g, "");
 
-  Product.find({}, function(err, products) {
-    var productMap = {};
-
-    products.forEach(function(product) {
-      productMap[product._id] = product;
-    });
-
+  Promise.all([
+    product_controller.product_get_low_stock(req, res),
+    product_controller.product_get_highest_price(req, res)
+  ])
+  .then(function(result) {
     res.render('index', {
-      pageHeader: 'Dashboard',
-      products: productMap
+      path: path,
+      products_low_stock: result[0],
+      products_highest_price: result[1]
     });
   });
 });

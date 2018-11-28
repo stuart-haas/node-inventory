@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  div.row
+    div.col-6
+      div.card
+        div.card-body
+          form(method="post")
+            div.form-group
+              label Name
+              input(type="text", name="name", placeholder="Name", value="#{product.name}").form-control
+            div.form-group
+              label Price
+              input(type="text", name="price", placeholder="Price", value="#{product.price}").form-control
+            div.form-group
+              label Quantity
+              input(type="text", name="quantity", placeholder="Quantity" value="#{product.quantity}").form-control
+            div.form-group
+              div.btn-group
+                button(type="submit", formaction="/products/#{product._id}/update").btn.btn-primary Update Product
+                button(type="submit", formaction="/products/#{product._id}/delete").btn.btn-danger Delete Product
