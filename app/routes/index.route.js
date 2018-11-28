@@ -15,7 +15,7 @@ router.get('/dashboard', (req, res) =>
     product_controller.product_get_low_stock(req, res),
     product_controller.product_get_highest_price(req, res)
   ])
-  .then(function(result) {
+  .then((result) => {
     res.render('index', {
       pageTitle: "Dashboard",
       path: path,

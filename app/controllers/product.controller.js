@@ -1,21 +1,7 @@
 const Product = require('../models/product.model');
 
 exports.product_get_all = (req, res) => {
-  Product.find({}, (err, products) => {
-    var status = req.query.status;
-    var id = req.query.id;
-    var name = req.query.name;
-    var path = req.path.replace(/\//g, "");
-
-    res.render('products', {
-      path: path,
-      pageTitle: "Products",
-      products: products,
-      status: status,
-      id: id,
-      name: name
-    });
-  });
+  return Product.find({}, null, {}).exec();
 };
 
 exports.product_get_low_stock = (req, res) => {
@@ -27,19 +13,7 @@ exports.product_get_highest_price = (req, res) => {
 };
 
 exports.product_get = (req, res) => {
-  Product.findById(req.params.id, (err, product) => {
-    if (err) return next(err);
-    res.render('products/modify', {
-      pageTitle: "Modify Product",
-      product: product
-    });
-  });
-};
-
-exports.product_new = (req, res) => {
-  res.render('products/new', {
-    pageTitle: "New Product"
-  });
+  return Product.findById(req.params.id).exec();
 };
 
 exports.product_create = (req, res, next) => {

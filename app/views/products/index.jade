@@ -1,12 +1,12 @@
 extends ../layout
 
 block content
-  if(status == 'created') 
-    p Product #{name} created!
-  if(status == 'updated')
-    p Product #{id} updated!
-  if(status == 'deleted') 
-    p Product #{id} deleted!
+  if(query.status == 'created') 
+    p Product #{query.name} created!
+  if(query.status == 'updated')
+    p Product #{query.id} updated!
+  if(query.status == 'deleted') 
+    p Product #{query.id} deleted!
   div.btn-group
     a(href="/products/new").btn.btn-success New Product
   table.table.table-striped.table-bordered.mt-5
