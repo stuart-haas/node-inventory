@@ -18,11 +18,14 @@
   "homepage": "https://github.com/stuart-haas/node-inventory#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "chart.js": "^2.7.3",
+    "distinct-colors": "^1.0.4",
     "ejs": "^2.5.7",
     "express": "^4.16.4",
     "mongoose": "^5.3.13",
     "nodemon": "^1.18.7",
-    "reload": "^2.2.2"
+    "reload": "^2.2.2",
+    "rgb-hex": "^2.1.0"
   },
   "devDependencies": {
     "jade": "^1.11.0"

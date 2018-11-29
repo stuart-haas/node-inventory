@@ -26,6 +26,7 @@ app.set('views', 'app/views');
 
 // Set global view variables
 app.locals.siteTitle = "Inventory";
+
 app.locals.total = (x1, x2) => {
   return x1 * x2;
 }

@@ -4,16 +4,15 @@ const router = express.Router();
 const product_controller = require('../controllers/product.controller');
 
 router.get('/products/new', (req, res) => {
-  
+
   res.render('products/new', {
     pageTitle: "New Product"
   });
 });
 
 router.get('/products', (req, res) => {
-  var status = req.query.status;
-  var query = req.query;
   var path = req.path.replace(/\//g, "");
+  var query = req.query;
 
   return new Promise(resolve => {
     resolve(product_controller.product_get_all(req, res));
