@@ -15,7 +15,7 @@ router.get('/products', (req, res) => {
   var query = req.query;
 
   return new Promise(resolve => {
-    resolve(product_controller.product_get_all(req, res));
+    resolve(product_controller.product_get_all());
   })
   .catch((error) => {
     reject(error);
@@ -33,7 +33,7 @@ router.get('/products', (req, res) => {
 router.get('/products/:id', (req, res) => {
 
   return new Promise(resolve => {
-    resolve(product_controller.product_get(req, res));
+    resolve(product_controller.product_get(req));
   })
   .catch((error) => {
     reject(error);

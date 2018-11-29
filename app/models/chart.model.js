@@ -3,9 +3,9 @@ const rgbHex = require('rgb-hex');
 
 class Chart {
   constructor(data, type, labelKey, dataKey){
-    this.length = data.length;
-    this.data = this._arrayToObject(data);
-    this.config = {type: type,
+    this.data = data;
+    this.mData = this._arrayToObject(data);
+    this._config = {type: type,
       data: {
         labels: [],
         datasets: [{
@@ -19,20 +19,24 @@ class Chart {
         }
       }
     }
-    this._generate(labelKey, dataKey);
+    this.draw(labelKey, dataKey);
   }
 
-  _generate(labelKey, dataKey) {
-    var palette = distinctColors({count: this.length, hueMin: 150, hueMax: 250, lightMin: 50, lightMax: 100});
+  draw(labelKey, dataKey) {
+    var palette = distinctColors({count: this.data.length, hueMin: 150, hueMax: 250, lightMin: 50, lightMax: 100});
     var colors = [];
 
     for(var i = 0; i < palette.length; i ++) {
       colors.push('#'+rgbHex(palette[i]._rgb.toString()));
     }
 
-    this.config.data.labels = Object.keys(this.data).map(val => this.data[val][labelKey]);
-    this.config.data.datasets[0].data = Object.keys(this.data).map(val => this.data[val][dataKey]);
-    this.config.data.datasets[0].backgroundColor = colors;
+    this._config.data.labels = Object.keys(this.mData).map(val => this.mData[val][labelKey]);
+    this._config.data.datasets[0].data = Object.keys(this.mData).map(val => this.mData[val][dataKey]);
+    this._config.data.datasets[0].backgroundColor = colors;
+  }
+
+  get config() {
+    return JSON.stringify(this._config);
   }
 
   _arrayToObject(array) {

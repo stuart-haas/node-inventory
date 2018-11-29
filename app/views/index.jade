@@ -2,19 +2,23 @@ extends layout
 
 block content
   div.row
+    each result in results
+      div.col
+        h3 Highest Prices
+        ul.list-group
+            each product in result
+              li.list-group-item
+                a(href="/products/#{product._id}")=product.name + " ($" + product.price + ")"
+  div.row.mt-5
     div.col
-      include ./includes/products_low_stock.jade
+      canvas#chart-0
     div.col
-      include ./includes/products_highest_price.jade
-  div.row.mt-2
-    div.col
-      canvas#stock-chart
-    div.col
-      canvas#price-chart
+      canvas#chart-1
 block scripts
   script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
   script(type="text/javascript").
-    var ctx1 = document.getElementById('stock-chart').getContext('2d');
-    new Chart(ctx1, !{stockChart});
-    var ctx2 = document.getElementById('price-chart').getContext('2d');
-    new Chart(ctx2, !{priceChart});
+    var charts = [!{charts}];
+    for(var i = 0; i < charts.length; i ++) {
+      var ctx = document.getElementById('chart-'+i).getContext('2d');
+      new Chart(ctx, charts[i]);
+    }

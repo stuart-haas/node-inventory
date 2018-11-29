@@ -1,18 +1,18 @@
 const Product = require('../models/product.model');
 
-exports.product_get_all = (req, res) => {
-  return Product.find({}, null, {}).exec();
+exports.product_get_all = () => {
+  return Product.find({}, null, {sort: {name: 1}}).exec();
 };
 
-exports.product_get_low_stock = (req, res) => {
+exports.product_get_low_stock = () => {
   return Product.find({quantity: { $lt: 10 }}, null, {sort: {quantity: 1}}).exec();
 };
 
-exports.product_get_highest_price = (req, res) => {
+exports.product_get_highest_price = () => {
   return Product.find({}, null, {sort: {price: -1}, limit: 5}).exec();
 };
 
-exports.product_get = (req, res) => {
+exports.product_get = (req) => {
   return Product.findById(req.params.id).exec();
 };
 
