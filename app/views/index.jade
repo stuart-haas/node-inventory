@@ -1,19 +1,31 @@
 extends layout
 
 block content
-  div.row
-    each result in results
-      div.col
-        h3 Highest Prices
-        ul.list-group
-            each product in result
-              li.list-group-item
-                a(href="/products/#{product._id}")=product.name + " ($" + product.price + ")"
-  div.row.mt-5
-    div.col
-      canvas#chart-0
-    div.col
-      canvas#chart-1
+  each nodes, k1 in data
+    h3.mt-5=nodes.title
+    div.row
+      each node, k2 in nodes
+        if(k2 == 'products') 
+          div.col-sm-6
+            table.table.table-striped.table-bordered
+              thead
+                each field, k3 in nodes.fields
+                  if(k3 != 0)
+                    th.caps=field
+              tbody
+                each product in nodes.products
+                  tr
+                    for field, index in product
+                      if(index != '_id')
+                        td
+                          if(index == 'name')
+                            a(href="/products/#{product._id}")
+                              =field
+                          else
+                            =field
+          div.col-sm-6
+            canvas(id='chart-#{k1}')
+  
 block scripts
   script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
   script(type="text/javascript").

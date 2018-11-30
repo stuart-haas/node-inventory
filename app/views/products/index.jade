@@ -12,6 +12,7 @@ block content
   table.table.table-striped.table-bordered.mt-5
       thead
         th Name
+        th Cost
         th Price
         th Quantity
         th Total
@@ -20,6 +21,7 @@ block content
           tr
             td
               a(href="/products/#{product._id}")=product.name
+            td='$'+product.cost
             td='$'+product.price
             td=product.quantity
             td='$'+total(product.price, product.quantity)

@@ -12,6 +12,10 @@ exports.product_get_highest_price = () => {
   return Product.find({}, null, {sort: {price: -1}, limit: 5}).exec();
 };
 
+exports.product_get_highest_cost = () => {
+  return Product.find({}, null, {sort: {cost: -1}, limit: 5}).exec();
+};
+
 exports.product_get = (req) => {
   return Product.findById(req.params.id).exec();
 };
@@ -19,8 +23,9 @@ exports.product_get = (req) => {
 exports.product_create = (req, res, next) => {
   let product = new Product({
     name: req.body.name,
+    cost: req.body.cost,
     price: req.body.price,
-    quanity: req.body.quanity
+    quantity: req.body.quantity
   });
 
   product.save((err) => {
