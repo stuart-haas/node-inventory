@@ -8,14 +8,6 @@ exports.product_get_by_id = (id) => {
   return Product.findById(id).exec();
 };
 
-exports.product_get_low_stock = () => {
-  return Product.find({quantity: { $lt: 10 }}, null, {sort: {quantity: 1}}).exec();
-};
-
-exports.product_get_highest_price = () => {
-  return Product.find({}, null, {sort: {price: -1}, limit: 5}).exec();
-};
-
 exports.product_save = (req, res, next) => {
   let product = new Product({
     name: req.body.name,
