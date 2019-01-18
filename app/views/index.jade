@@ -1,36 +1,3 @@
 extends layout
 
 block content
-  each nodes, k1 in data
-    h3.mt-5=nodes.title
-    div.row
-      each node, k2 in nodes
-        if(k2 == 'products') 
-          div.col-sm-6
-            table.table.table-striped.table-bordered
-              thead
-                each field, k3 in nodes.fields
-                  if(k3 != 0)
-                    th.caps=field
-              tbody
-                each product in nodes.products
-                  tr
-                    for field, index in product
-                      if(index != '_id')
-                        td
-                          if(index == 'name')
-                            a(href="/products/#{product._id}")
-                              =field
-                          else
-                            =field
-          div.col-sm-6
-            canvas(id='chart-#{k1}')
-  
-block js
-  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
-  script(type="text/javascript").
-    var charts = [!{charts}];
-    for(var i = 0; i < charts.length; i ++) {
-      var ctx = document.getElementById('chart-'+i).getContext('2d');
-      new Chart(ctx, charts[i]);
-    }
