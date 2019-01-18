@@ -3,19 +3,12 @@ const router = express.Router();
 
 const product_controller = require('../controllers/product.controller');
 
-router.get('/products/new', (req, res) => {
-
-  res.render('products/new', {
-    pageTitle: "New Product"
-  });
-});
-
 router.get('/products', (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 
   return new Promise(resolve => {
-    resolve(product_controller.product_get_all());
+    resolve(product_controller.product_get({}, null, {sort: {name: 1}}));
   })
   .catch((error) => {
     reject(error);
@@ -27,13 +20,22 @@ router.get('/products', (req, res) => {
       query: query,
       products: result,
     });
-  });  
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 
-router.get('/products/:id', (req, res) => {
+router.get('/products/create', (req, res) => {
 
+  res.render('products/create', {
+    pageTitle: "Create Product"
+  });
+});
+
+router.get('/products/modify', (req, res) => {
   return new Promise(resolve => {
-    resolve(product_controller.product_get(req));
+    resolve(product_controller.product_get_by_id(req.query.id));
   })
   .catch((error) => {
     reject(error);
@@ -43,13 +45,16 @@ router.get('/products/:id', (req, res) => {
       pageTitle: "Modify Product",
       product: result
     });
+  })
+  .catch((err) => {
+    console.log(err);
   });
 });;
 
-router.post('/products/create', product_controller.product_create);
+router.post('/products/save', product_controller.product_save);
 
-router.post('/products/:id/update', product_controller.product_update);
+router.post('/products/update', product_controller.product_update);
 
-router.post('/products/:id/delete', product_controller.product_delete);
+router.post('/products/delete', product_controller.product_delete);
 
 module.exports = router;

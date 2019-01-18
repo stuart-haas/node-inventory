@@ -1,27 +1,34 @@
 extends ../layout
 
 block content
-  if(query.status == 'created') 
-    p Product #{query.name} created!
-  if(query.status == 'updated')
-    p Product #{query.id} updated!
-  if(query.status == 'deleted') 
-    p Product #{query.id} deleted!
-  div.btn-group
-    a(href="/products/new").btn.btn-success New Product
-  table.table.table-striped.table-bordered.mt-5
-      thead
-        th Name
-        th Cost
-        th Price
-        th Quantity
-        th Total
-      tbody
-        each product in products
-          tr
-            td
-              a(href="/products/#{product._id}")=product.name
-            td='$'+product.cost
-            td='$'+product.price
-            td=product.quantity
-            td='$'+total(product.price, product.quantity)
+  div.container.my-5.mx-5
+    if(query.save)
+      div.alert.alert-success.alert-dismissible.fade.show
+        a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;
+        Product #{query.name} created!
+    if(query.update)
+      div.alert.alert-success.alert-dismissible.fade.show
+        a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;
+        Product #{query.name} updated!
+    if(query.delete) 
+      div.alert.alert-danger.alert-dismissible.fade.show
+        a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;&nbsp;
+        Product #{query.name} deleted!
+    div.btn-group
+      a(href="/products/create").btn.btn-success Create Product
+    table.table.table-striped.table-bordered.mt-5
+        thead
+          th Name
+          th Cost
+          th Price
+          th Quantity
+          th Total
+        tbody
+          each product in products
+            tr
+              td
+                a(href="/products/modify?id=#{product._id}")=product.name
+              td='$'+product.cost
+              td='$'+product.price
+              td=product.quantity
+              td='$'+total(product.price, product.quantity)
