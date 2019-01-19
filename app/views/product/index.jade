@@ -15,20 +15,18 @@ block content
         a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;&nbsp;
         Product #{query.name} deleted!
     div.btn-group
-      a(href="/products/create").btn.btn-success Create Product
+      a(href="/product/create").btn.btn-success Create Product
     table.table.table-striped.table-bordered.mt-5
         thead
           th Name
-          th Cost
           th Price
           th Quantity
-          th Total
+          th Category
         tbody
           each product in products
             tr
               td
-                a(href="/products/modify?id=#{product._id}")=product.name
-              td='$'+product.cost
+                a(href="/product/modify?id=#{product.id}")=product.name
               td='$'+product.price
               td=product.quantity
-              td='$'+total(product.price, product.quantity)
+              td=product.cat_name

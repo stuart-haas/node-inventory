@@ -7,12 +7,10 @@ block content
         div.card
           div.card-body
             form(method="post")
+              input(type="hidden", name="id", value="#{product.id}")
               div.form-group
                 label Name
                 input(type="text", name="name", placeholder="Name", value="#{product.name}").form-control
-              div.form-group
-                label Cost
-                input(type="text", name="cost", placeholder="Cost" value="#{product.cost}").form-control
               div.form-group
                 label Price
                 input(type="text", name="price", placeholder="Price", value="#{product.price}").form-control
@@ -20,6 +18,11 @@ block content
                 label Quantity
                 input(type="text", name="quantity", placeholder="Quantity" value="#{product.quantity}").form-control
               div.form-group
+                label Category
+                select(name="cat_id").form-control
+                  for category in categories
+                    option(value="#{category.id}" selected='#{category.cat_name}' == '#{product.cat_name}') #{category.cat_name}
+              div.form-group
                 div.btn-group
-                  button(type="submit", formaction="/products/update/?id=#{product._id}").btn.btn-primary Update Product
-                  button(type="submit", formaction="/products/delete/?id=#{product._id}").btn.btn-danger Delete Product
+                  button(type="submit", formaction="/product/update/?id=#{product.id}").btn.btn-primary Update Product
+                  button(type="submit", formaction="/product/delete/?id=#{product.id}").btn.btn-danger Delete Product

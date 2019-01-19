@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  div.container.my-5.mx-5
+    if(query.save)
+      div.alert.alert-success.alert-dismissible.fade.show
+        a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;
+        Category #{query.name} created!
+    if(query.update)
+      div.alert.alert-success.alert-dismissible.fade.show
+        a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;
+        Category #{query.name} updated!
+    if(query.delete) 
+      div.alert.alert-danger.alert-dismissible.fade.show
+        a(href="#", class="close", data-dismiss="alert", aria-label="Close") &times;&nbsp;
+        Category #{query.name} deleted!
+    div.btn-group
+      a(href="/category/create").btn.btn-success Create Category
+    table.table.table-striped.table-bordered.mt-5
+        thead
+          th Name
+        tbody
+          each category in categories
+            tr
+              td
+                a(href="/category/modify?id=#{category.id}")=category.cat_name

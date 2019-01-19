@@ -11,14 +11,16 @@ block content
                 label Name
                 input(type="text", name="name", placeholder="Name").form-control
               div.form-group
-                label Cost
-                input(type="text", name="cost", placeholder="Cost").form-control
-              div.form-group
                 label Price
                 input(type="text", name="price", placeholder="Price").form-control
               div.form-group
                 label Quantity
                 input(type="text", name="quantity", placeholder="Quantity").form-control
               div.form-group
+                label Category
+                select(name="cat_id").form-control
+                  for category in categories
+                    option(value="#{category.id}") #{category.cat_name}
+              div.form-group
                 div.btn-group
-                  button(type="submit", formaction="/products/save").btn.btn-success Save Product
+                  button(type="submit", formaction="/product/save").btn.btn-success Save Product

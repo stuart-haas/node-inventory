@@ -1,37 +1,55 @@
-const Product = require('../models/product.model');
+const knex = require('../models/knex.model');
 
-exports.product_get = (filter, fields, sort) => {
-  return Product.find(filter, fields, sort).exec();
+exports.get = {
+  all: () => {
+    return knex.select('products.id', 'products.name', 'products.price', 'products.quantity', 'categories.cat_name')
+    .from('products')
+    .leftJoin('relations', function() {
+      this.on('relations.source_id', '=', 'products.id')
+    })
+    .leftJoin('categories', function() {
+      this.on('categories.id', '=', 'relations.target_id')
+    });
+  },
+  byId: (id) => {
+    return knex.select('products.id', 'products.name', 'products.price', 'products.quantity', 'categories.cat_name')
+    .from('products')
+    .leftJoin('relations', function() {
+      this.on('relations.source_id', '=', 'products.id')
+    })
+    .leftJoin('categories', function() {
+      this.on('categories.id', '=', 'relations.target_id')
+    })
+    .where('products.id', id);
+  }
 };
 
-exports.product_get_by_id = (id) => {
-  return Product.findById(id).exec();
-};
-
-exports.product_save = (req, res, next) => {
-  let product = new Product({
+exports.save = (req) => {
+  let product = {
+    id: req.body.id,
     name: req.body.name,
-    cost: req.body.cost,
     price: req.body.price,
     quantity: req.body.quantity
-  });
-
-  product.save((err) => {
-    if (err) return next(err);
-    res.redirect('/products/?save=true&name=' + req.body.name);
-  })
+  }
+  return knex.insert(product).returning('id').into('products');
 };
 
-exports.product_update = (req, res) => {
-  Product.findByIdAndUpdate(req.query.id, {$set: req.body}, (err, product) => {
-      if (err) return next(err);
-      res.redirect('/products/?update=true&name=' + req.body.name);
-  });
+exports.update = (req) => {
+  let product = {
+    id: req.body.id,
+    name: req.body.name,
+    price: req.body.price,
+    quantity: req.body.quantity
+  }
+  return knex('products')
+  .where('id', req.query.id)
+  .update(
+    product
+  );
 };
 
-exports.product_delete = (req, res) => {
-  Product.findByIdAndRemove(req.query.id, function (err) {
-      if (err) return next(err);
-      res.redirect('/products/?delete=true&name=' + req.body.name);
-  });
+exports.delete = (id) => {
+  return knex('products')
+  .where('id', id)
+  .delete();
 };

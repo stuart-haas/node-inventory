@@ -20,7 +20,9 @@
     "body-parser": "^1.18.3",
     "distinct-colors": "^1.0.4",
     "express": "^4.16.4",
+    "knex": "^0.16.3",
     "mongoose": "^5.3.13",
+    "mysql": "^2.16.0",
     "nodemon": "^1.18.7",
     "reload": "^2.2.2",
     "rgb-hex": "^2.1.0"
