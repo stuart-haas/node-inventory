@@ -1,8 +1,8 @@
 const express = require('express');
 
-const index = require('./routes/index.route');
-const product = require('./routes/product.route');
-const category = require('./routes/category.route');
+const index = require('./route/index.route');
+const product = require('./route/product.route');
+const category = require('./route/category.route');
 
 const bodyParser = require('body-parser');
 
@@ -12,29 +12,25 @@ const app = express();
 // Set server port
 app.set('port', process.env.PORT || 3000);
 
-// Set jade for view engine
+// Set view engine to jade
 app.set('view engine', 'jade');
 app.set('views', 'app/views');
 
-// Set global view variables
+// Set locals
 app.locals.siteTitle = "Inventory";
 
-app.locals.total = (x1, x2) => {
-  return x1 * x2;
-}
-
-// Initialize body parser for post requests
+// Add body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// Initialize and set router
+// Add router
 const router = express.Router();
 app.use(router)
 
-// Serve static files
+// Add static content
 app.use(express.static('app/static'));
 
-// Add routes
+// Add route
 app.use(index);
 app.use(product);
 app.use(category);

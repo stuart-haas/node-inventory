@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const category_controller = require('../controllers/category.controller');
-const relations_controller = require('../controllers/relations.controller');
+const category = require('../db/category.db');
+const relation = require('../db/relation.db');
 
 router.get('/category', (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 
-  category_controller.get.all()
+  category.query.get.all()
   .then((result) => {
     res.render('category', {
       pageTitle: "Categories",
@@ -30,7 +30,7 @@ router.get('/category/create', (req, res) => {
 });
 
 router.get('/category/modify', (req, res) => {
-  category_controller.get.byId(req.query.id)
+  category.query.get.byId(req.query.id)
   .then((result) => {
     res.render('category/modify', {
       pageTitle: "Modify Category",
@@ -43,7 +43,7 @@ router.get('/category/modify', (req, res) => {
 });;
 
 router.post('/category/save', (req, res) => {
-  category_controller.save(req)
+  category.query.save(req)
   .then(() => {
     res.redirect('/category/?save=true&name=' + req.body.cat_name);
   })
@@ -53,7 +53,7 @@ router.post('/category/save', (req, res) => {
 });
 
 router.post('/category/update', (req, res) => {
-  category_controller.update(req)
+  category.query.update(req)
   .then(() => {
     res.redirect('/category/?update=true&name=' + req.body.cat_name);
   })
@@ -63,9 +63,9 @@ router.post('/category/update', (req, res) => {
 });
 
 router.post('/category/delete', (req, res) => {
-  category_controller.delete(req.query.id)
+  category.query.delete(req.query.id)
   .then(() => {
-    relations_controller.delete.byTargetId(req.query.id)
+    relation.query.delete.byTargetId(req.query.id)
     .then(() => {
       res.redirect('/category/?delete=true&name=' + req.body.cat_name);
     });

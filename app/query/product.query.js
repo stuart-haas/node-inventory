@@ -1,4 +1,4 @@
-const knex = require('../models/knex.model');
+const knex = require('../db/knex.db');
 
 exports.get = {
   all: () => {
@@ -29,7 +29,8 @@ exports.save = (req) => {
     id: req.body.id,
     name: req.body.name,
     price: req.body.price,
-    quantity: req.body.quantity
+    quantity: req.body.quantity,
+    dateCreated: new Date()
   }
   return knex.insert(product).returning('id').into('products');
 };
@@ -39,7 +40,8 @@ exports.update = (req) => {
     id: req.body.id,
     name: req.body.name,
     price: req.body.price,
-    quantity: req.body.quantity
+    quantity: req.body.quantity,
+    dateUpdated: new Date()
   }
   return knex('products')
   .where('id', req.query.id)

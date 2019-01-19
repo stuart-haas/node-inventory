@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const product_controller = require('../controllers/product.controller');
-const category_controller = require('../controllers/category.controller');
-const relations_controller = require('../controllers/relations.controller');
+const product = require('../db/product.db');
+const category = require('../db/category.db');
+const relation = require('../db/relation.db');
 
 router.get('/product', (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 
-  product_controller.get.all()
+  product.query.get.all()
   .then((results) => {
     res.render('product', {
       pageTitle: "Products",
@@ -25,7 +25,7 @@ router.get('/product', (req, res) => {
 
 router.get('/product/create', (req, res) => {
 
-  category_controller.get.all()
+  category.query.get.all()
     .then((categories) => {
       res.render('product/create', {
         pageTitle: "Create Product",
@@ -35,9 +35,9 @@ router.get('/product/create', (req, res) => {
 });
 
 router.get('/product/modify', (req, res) => {
-  product_controller.get.byId(req.query.id)
+  product.query.get.byId(req.query.id)
   .then((result) => {
-    category_controller.get.all()
+    category.query.get.all()
     .then((categories) => {
       res.render('product/modify', {
         pageTitle: "Modify Product",
@@ -52,12 +52,15 @@ router.get('/product/modify', (req, res) => {
 });;
 
 router.post('/product/save', (req, res) => {
-  product_controller.save(req)
+  product.query.save(req)
   .then((source_id) => {
-    relations_controller.save(source_id, req.body.cat_id)
-    .then(() => {
+    if(req.body.cat_id)
+      relation.query.save(source_id, req.body.cat_id)
+      .then(() => {
+        res.redirect('/product/?save=true&name=' + req.body.name);
+      })
+    else
       res.redirect('/product/?save=true&name=' + req.body.name);
-    });
   })
   .catch((error) => {
     console.error(error);
@@ -65,17 +68,25 @@ router.post('/product/save', (req, res) => {
 });
 
 router.post('/product/update', (req, res) => {
-  product_controller.update(req)
+  product.query.update(req)
   .then(() => {
-    relations_controller.get.bySourceId(req.body.id)
+    relation.query.get.bySourceId(req.body.id)
     .then((result) => {
-      if(result.length)
-        relations_controller.update(req.body.id, req.body.cat_id)
-      else 
-        relations_controller.save(req.body.id, req.body.cat_id)
-      .then(() => {
+      if(req.body.cat_id) {
+        if(result.length)
+          relation.query.update(req.body.id, req.body.cat_id)
+          .then(() => {
+            res.redirect('/product/?update=true&name=' + req.body.name);
+          })
+        else {
+          relation.query.save(req.body.id, req.body.cat_id)
+          .then(() => {
+            res.redirect('/product/?update=true&name=' + req.body.name);
+          })
+        }
+      }
+      else
         res.redirect('/product/?update=true&name=' + req.body.name);
-      });
     })
   })
   .catch((error) => {
@@ -84,11 +95,18 @@ router.post('/product/update', (req, res) => {
 });
 
 router.post('/product/delete', (req, res) => {
-  product_controller.delete(req.query.id)
+  product.query.delete(req.query.id)
   .then(() => {
-    relations_controller.delete.bySourceId(req.query.id)
-    .then(() => {
-      res.redirect('/product/?delete=true&name=' + req.body.name);
+    relation.query.get.bySourceId(req.query.id)
+    .then((result) => {
+      if(result.length) {
+        relation.query.delete.bySourceId(req.query.id)
+        .then(() => {
+          res.redirect('/product/?delete=true&name=' + req.body.name);
+        });
+      }
+      else 
+        res.redirect('/product/?delete=true&name=' + req.body.name);
     });
   })
   .catch((error) => {

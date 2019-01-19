@@ -1,4 +1,4 @@
-const knex = require('../models/knex.model');
+const knex = require('../db/knex.db');
 
 exports.get = {
   bySourceId: (source_id) => {
@@ -7,11 +7,11 @@ exports.get = {
 };
 
 exports.save = (source_id, target_id) => {
-  return knex('relations').insert({source_id: source_id, target_id: target_id});
+  return knex('relations').insert({source_id: source_id, target_id: target_id, dateCreated: new Date()});
 };
 
 exports.update = (source_id, target_id) => {
-  return knex('relations').where('source_id', source_id).update({source_id: source_id, target_id: target_id});
+  return knex('relations').where('source_id', source_id).update({source_id: source_id, target_id: target_id, dateUpdated: new Date()});
 };
 
 exports.delete = {

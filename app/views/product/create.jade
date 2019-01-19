@@ -17,10 +17,11 @@ block content
                 label Quantity
                 input(type="text", name="quantity", placeholder="Quantity").form-control
               div.form-group
-                label Category
-                select(name="cat_id").form-control
-                  for category in categories
-                    option(value="#{category.id}") #{category.cat_name}
+                if(categories.length)
+                  label Category
+                  select(name="cat_id").form-control
+                    for category in categories
+                      option(value="#{category.id}") #{category.cat_name}
               div.form-group
                 div.btn-group
                   button(type="submit", formaction="/product/save").btn.btn-success Save Product

@@ -18,10 +18,11 @@ block content
                 label Quantity
                 input(type="text", name="quantity", placeholder="Quantity" value="#{product.quantity}").form-control
               div.form-group
-                label Category
-                select(name="cat_id").form-control
-                  for category in categories
-                    option(value="#{category.id}" selected='#{category.cat_name}' == '#{product.cat_name}') #{category.cat_name}
+                if(categories.length)
+                  label Category
+                  select(name="cat_id").form-control
+                    for category in categories
+                      option(value="#{category.id}" selected='#{category.cat_name}' == '#{product.cat_name}') #{category.cat_name}
               div.form-group
                 div.btn-group
                   button(type="submit", formaction="/product/update/?id=#{product.id}").btn.btn-primary Update Product
