@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const category = require('../db/category.db');
-const relation = require('../db/relation.db');
+const category = require('../model/category.model');
+const relation = require('../model/relation.model');
 
 router.get('/category', (req, res) => {
   var path = req.path.replace(/\//g, "");

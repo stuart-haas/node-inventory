@@ -10,12 +10,12 @@ exports.get = {
 };
 
 exports.save = (req) => {
-  req.body.dateCreated = new Date();
+  req.body.created_at = new Date();
   return knex('categories').insert(req.body);
 };
 
 exports.update = (req) => {
-  req.body.dateUpdated = new Date();
+  req.body.updated_at = new Date();
   return knex('categories')
   .where('id', req.query.id)
   .update(

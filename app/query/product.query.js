@@ -30,7 +30,7 @@ exports.save = (req) => {
     name: req.body.name,
     price: req.body.price,
     quantity: req.body.quantity,
-    dateCreated: new Date()
+    created_at: new Date()
   }
   return knex.insert(product).returning('id').into('products');
 };
@@ -41,7 +41,7 @@ exports.update = (req) => {
     name: req.body.name,
     price: req.body.price,
     quantity: req.body.quantity,
-    dateUpdated: new Date()
+    updated_at: new Date()
   }
   return knex('products')
   .where('id', req.query.id)

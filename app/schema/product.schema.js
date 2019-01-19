@@ -1,13 +1,14 @@
 const knex = require('../db/knex.db');
 
 exports.build = () => {
-  knex.schema.hasTable('users').then(function(exists) {
+  knex.schema.hasTable('products').then(function(exists) {
     if (!exists) {
-      return knex.schema.createTable('users', function(t) {
+      return knex.schema.createTable('products', function(t) {
         t.increments('id').primary();
-        t.string('first_name', 100);
-        t.string('last_name', 100);
-        t.text('bio');
+        t.text('name').notNullable();
+        t.float('price');
+        t.integer('quantity');
+        t.timestamps(true, true);
       });
     }
   })

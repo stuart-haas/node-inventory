@@ -1,13 +1,18 @@
 const express = require('express');
-
-const index = require('./route/index.route');
-const product = require('./route/product.route');
-const category = require('./route/category.route');
-
-const bodyParser = require('body-parser');
-
-const reload = require('reload');
 const app = express();
+const bodyParser = require('body-parser');
+const router = express.Router();
+const reload = require('reload');
+
+const index = require('./model/index.model');
+const product = require('./model/product.model');
+const category = require('./model/category.model');
+const relation = require('./model/relation.model');
+
+// Build schemas
+product.schema.build();
+category.schema.build();
+relation.schema.build();
 
 // Set server port
 app.set('port', process.env.PORT || 3000);
@@ -24,16 +29,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Add router
-const router = express.Router();
 app.use(router)
 
 // Add static content
 app.use(express.static('app/static'));
 
-// Add route
-app.use(index);
-app.use(product);
-app.use(category);
+// Add routes
+app.use(index.route);
+app.use(product.route);
+app.use(category.route);
 
 // Add listener to server
 app.listen(app.get('port'), (req, res) =>
