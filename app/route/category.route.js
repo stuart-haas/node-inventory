@@ -34,7 +34,7 @@ router.get('/category/modify', (req, res) => {
   .then((result) => {
     res.render('category/modify', {
       pageTitle: "Modify Category",
-      category: result[0]
+      category: result
     });
   })
   .catch((error) => {

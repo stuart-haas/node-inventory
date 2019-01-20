@@ -39,7 +39,7 @@ router.get('/product/modify', (req, res) => {
   .then((results) => {
     res.render('product/modify', {
       pageTitle: "Modify Product",
-      product: results[0][0],
+      product: results[0],
       categories: results[1]
     });
   })
@@ -64,8 +64,8 @@ router.post('/product/save', (req, res) => {
 
 router.post('/product/update', (req, res) => {
   Promise.all([product.query.update(req), relation.query.get.bySourceId(req.body.id)])
-  .then((results) => {
-    if(results[1].length)
+  .then((result) => {
+    if(result)
       if(req.body.cat_id) {
         return Promise.resolve(relation.query.update(req.body.id, req.body.cat_id));
       }

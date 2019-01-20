@@ -5,10 +5,10 @@ exports.get = {
     return knex.select('*').from('users');
   },
   byId: (id) => {
-    return knex('users').where('id', id);
+    return knex('users').where('id', id).first();
   },
   byUserName: (username) => {
-    return knex('users').where('username', username);
+    return knex('users').where('username', username).first();
   }
 };
 

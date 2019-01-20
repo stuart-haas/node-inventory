@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  div.container.my-5.mx-5
+    h2 Status: #{error.status}
+    p Message: #{error.message}
+    pre #{error.stack}

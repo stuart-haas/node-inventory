@@ -14,7 +14,7 @@ router.get('/admin/register', (req, res) => {
 });
 
 router.get('/admin/login', (req, res) => {
-  if (req.session) {
+  if (req.session.userId) {
     res.redirect('/profile');
   } else {
     res.render('admin/login', { pageTitle: "Login" });
@@ -24,7 +24,7 @@ router.get('/admin/login', (req, res) => {
 router.get('/profile', Session.requiresLogin, (req, res) => {
   User.query.get.byId(req.session.userId)
   .then((user) => {
-    return res.render('admin/profile', { pageTitle: "Profile", username: user[0].username })
+    return res.render('admin/profile', { pageTitle: "Profile", username: user.username })
   })
 });
 
@@ -46,25 +46,25 @@ router.post('/user', (req, res) => {
       if(error == User.ERROR.USER.NO_MATCH)
         res.render('admin/login', { pageTitle: "Login", username: user, error: { username: "Wrong username" }});
       else if(error == User.ERROR.PASSWORD.NO_MATCH)
-        res.render('admin/login', { pageTitle: "Login", username: user[0].username, error: { password: "Wrong password" }});
+        res.render('admin/login', { pageTitle: "Login", username: user, error: { password: "Wrong password" }});
     } else {
-      req.session.userId = user[0].id;
-      res.redirect('/profile');
+      req.session.userId = user.id;
+      res.redirect('/');
     }
   });
 });
 
 router.post('/user/save', (req, res) => {
-  User.validate(req.body.username, req.body.password, req.body.passwordConf, (username, password, error) => {
+  User.validate(req.body.username, req.body.password, req.body.passwordConf, (user, password, error) => {
     if(error) {
       if(error == User.ERROR.USER.MATCH)
-        res.render('admin/register', { pageTitle: "Register", username: username, error: { username: "Username already exists" }});
+        res.render('admin/register', { pageTitle: "Register", username: user, error: { username: "Username already exists" }});
       else if(error == User.ERROR.PASSWORD.NO_MATCH)
-        res.render('admin/register', { pageTitle: "Register", username: username, error: { password: "Passwords do not match" }});
+        res.render('admin/register', { pageTitle: "Register", username: user, error: { password: "Passwords do not match" }});
     }
     else {
       bcrypt.hash(password, 10, function(err, hash) {
-        User.query.save(username, hash)
+        User.query.save(user, hash)
         .then(() => {
           res.redirect('/admin/login');
         });

@@ -18,8 +18,8 @@ exports.ERROR = {
 exports.validate = (username, password, passwordConf, callback) => {
   exports.query.get.byUserName(username)
   .then((user) => {
-    if(user.length) {
-      return callback(username, null, exports.ERROR.USER.MATCH);
+    if(user) {
+      return callback(user.username, null, exports.ERROR.USER.MATCH);
     } else {
       if(password == passwordConf) {
         return callback(username, password);
@@ -34,14 +34,14 @@ exports.validate = (username, password, passwordConf, callback) => {
 exports.authenticate = (username, password, callback) => {
   exports.query.get.byUserName(username)
   .then((user) => {
-    if(!user.length) {
+    if(!user) {
       return callback(username, exports.ERROR.USER.NO_MATCH);
     } else {
-      bcrypt.compare(password, user[0].password, (error, result) => {
+      bcrypt.compare(password, user.password, (error, result) => {
         if(result)
           return callback(user, null);
         else
-          return callback(user, exports.ERROR.PASSWORD.NO_MATCH);
+          return callback(user.username, exports.ERROR.PASSWORD.NO_MATCH);
       });
     }
   });

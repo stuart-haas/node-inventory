@@ -5,7 +5,7 @@ exports.get = {
     return knex.select('*').from('categories');
   },
   byId: (id) => {
-    return knex('categories').where('id', id);
+    return knex('categories').where('id', id).first();
   }
 };
 

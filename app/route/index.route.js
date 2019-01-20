@@ -10,7 +10,8 @@ router.get('/dashboard', (req, res) => {
 
   res.render('index', {
     pageTitle: "Dashboard",
-    path: path
+    path: path,
+    currentUser: req.user
   });
 });
 

@@ -20,7 +20,7 @@ exports.get = {
     .leftJoin('categories', function() {
       this.on('categories.id', '=', 'relations.target_id')
     })
-    .where('products.id', id);
+    .where('products.id', id).first();
   }
 };
 

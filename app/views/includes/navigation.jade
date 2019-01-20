@@ -1,5 +1,5 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  div.collapse.navbar-collapse#navbarNav
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  div.collapse.navbar-collapse
     ul.navbar-nav
       li.nav-item
         a(href="/", class="#{path == 'dashboard' ? 'active' : '' }").nav-link Dashboard
@@ -7,6 +7,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
         a(href="/product" class="#{path == 'product' ? 'active' : '' }").nav-link Products
       li.nav-item
         a(href="/category" class="#{path == 'category' ? 'active' : '' }").nav-link Categories 
-    ul.navbar-nav.navbar-right
+    ul.navbar-nav.navbar-right.ml-auto
       li.nav-item
-        a(href="/admin/login" class="#{path == 'category' ? 'active' : '' }").nav-link Login 
+        if(currentUser) 
+          p You are logged in as #{currentUser.username}
+        else
+          a(href="/admin/login" class="#{path == 'category' ? 'active' : '' }").nav-link Login 
