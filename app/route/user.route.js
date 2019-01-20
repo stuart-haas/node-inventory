@@ -2,29 +2,17 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-const User = require('../model/user.model');
 const Session = require('../model/session.model');
+const User = require('../model/user.model');
 
 router.get('/admin', (req, res) => {
   res.render('admin', { pageTitle: "Admin" });
 });
 
-router.get('/admin/register', (req, res) => {
-  res.render('admin/register', { pageTitle: "Register" });
-});
-
-router.get('/admin/login', (req, res) => {
-  if (req.session.userId) {
-    res.redirect('/profile');
-  } else {
-    res.render('admin/login', { pageTitle: "Login" });
-  }
-});
-
-router.get('/profile', Session.requiresLogin, (req, res) => {
-  User.query.get.byId(req.session.userId)
+router.get('/profile', Session.requireLogin, (req, res) => {
+  User.query.get.byId(req.session.user.id)
   .then((user) => {
-    return res.render('admin/profile', { pageTitle: "Profile", username: user.username })
+    res.render('user/profile', { pageTitle: "Profile", sessionId: req.session.user.id, username: user.username })
   })
 });
 
@@ -34,13 +22,17 @@ router.get('/logout', (req, res, next) => {
       if (error) {
         return next(error);
       } else {
-        return res.redirect('/admin/login');
+        res.redirect('/');
       }
     });
   }
 });
 
-router.post('/user', (req, res) => {
+router.get('/login', Session.refer('/profile'), (req, res) => {
+  res.render('admin/login', { pageTitle: "Login" });
+});
+
+router.post('/login', (req, res) => {
   User.authenticate(req.body.username, req.body.password, (user, error) => {
     if(error) {
       if(error == User.ERROR.USER.NO_MATCH)
@@ -48,13 +40,17 @@ router.post('/user', (req, res) => {
       else if(error == User.ERROR.PASSWORD.NO_MATCH)
         res.render('admin/login', { pageTitle: "Login", username: user, error: { password: "Wrong password" }});
     } else {
-      req.session.userId = user.id;
-      res.redirect('/');
+      req.session.user = user;
+      res.redirect('/dashboard');
     }
   });
 });
 
-router.post('/user/save', (req, res) => {
+router.get('/register', Session.refer('/profile'), (req, res) => {
+  res.render('admin/register', { pageTitle: "Register" });
+});
+
+router.post('/register', (req, res) => {
   User.validate(req.body.username, req.body.password, req.body.passwordConf, (user, password, error) => {
     if(error) {
       if(error == User.ERROR.USER.MATCH)
@@ -66,7 +62,7 @@ router.post('/user/save', (req, res) => {
       bcrypt.hash(password, 10, function(err, hash) {
         User.query.save(user, hash)
         .then(() => {
-          res.redirect('/admin/login');
+          res.redirect('/login');
         });
       });
     }

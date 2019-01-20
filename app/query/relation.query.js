@@ -2,7 +2,7 @@ const knex = require('../db/knex.db');
 
 exports.get = {
   bySourceId: (source_id) => {
-    return knex('relations').where('source_id', source_id);
+    return knex('relations').where('source_id', source_id).first();
   }
 };
 

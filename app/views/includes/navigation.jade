@@ -8,8 +8,11 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       li.nav-item
         a(href="/category" class="#{path == 'category' ? 'active' : '' }").nav-link Categories 
     ul.navbar-nav.navbar-right.ml-auto
-      li.nav-item
-        if(currentUser) 
-          p You are logged in as #{currentUser.username}
-        else
-          a(href="/admin/login" class="#{path == 'category' ? 'active' : '' }").nav-link Login 
+      if(user) 
+        li.nav-item
+          a(href="/profile").nav-link Profile
+        li.nav-item 
+          a(href="/logout").nav-link Logout 
+      else
+        li.nav-item
+          a(href="/login").nav-link Login 

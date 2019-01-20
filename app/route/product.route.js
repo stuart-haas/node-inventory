@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const product = require('../model/product.model');
-const category = require('../model/category.model');
-const relation = require('../model/relation.model');
+const Session = require('../model/session.model');
+const Product = require('../model/product.model');
+const Category = require('../model/category.model');
+const Relation = require('../model/relation.model');
 
 router.get('/product', (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 
-  product.query.get.all()
+  Product.query.get.all()
   .then((results) => {
     res.render('product', {
       pageTitle: "Products",
@@ -23,9 +24,9 @@ router.get('/product', (req, res) => {
   });
 });
 
-router.get('/product/create', (req, res) => {
+router.get('/product/create', Session.requireLogin, (req, res) => {
 
-  category.query.get.all()
+  Category.query.get.all()
     .then((categories) => {
       res.render('product/create', {
         pageTitle: "Create Product",
@@ -34,8 +35,8 @@ router.get('/product/create', (req, res) => {
     });
 });
 
-router.get('/product/modify', (req, res) => {
-  Promise.all([product.query.get.byId(req.query.id), category.query.get.all()])
+router.get('/product/modify', Session.requireLogin, (req, res) => {
+  Promise.all([Product.query.get.byId(req.query.id), Category.query.get.all()])
   .then((results) => {
     res.render('product/modify', {
       pageTitle: "Modify Product",
@@ -48,11 +49,11 @@ router.get('/product/modify', (req, res) => {
   });
 });;
 
-router.post('/product/save', (req, res) => {
-  product.query.save(req)
+router.post('/product/save', Session.requireLogin, (req, res) => {
+  Product.query.save(req)
   .then((source_id) => {
     if(req.body.cat_id)
-      return Promise.resolve(relation.query.save(source_id, req.body.cat_id))
+      return Promise.resolve(Relation.query.save(source_id, req.body.cat_id))
   })
   .then(() => {
     res.redirect('/product/?save=true&name=' + req.body.name);
@@ -62,18 +63,18 @@ router.post('/product/save', (req, res) => {
   });
 });
 
-router.post('/product/update', (req, res) => {
-  Promise.all([product.query.update(req), relation.query.get.bySourceId(req.body.id)])
+router.post('/product/update', Session.requireLogin, (req, res) => {
+  Promise.all([Product.query.update(req), Relation.query.get.bySourceId(req.body.id)])
   .then((result) => {
-    if(result)
+    if(result[1]) {
       if(req.body.cat_id) {
-        return Promise.resolve(relation.query.update(req.body.id, req.body.cat_id));
+        return Promise.resolve(Relation.query.update(req.body.id, req.body.cat_id));
       }
       else {
-        return Promise.resolve(relation.query.delete.bySourceId(req.body.id));
+        return Promise.resolve(Relation.query.delete.bySourceId(req.body.id));
       }
-    else {
-      return Promise.resolve(relation.query.save(req.body.id, req.body.cat_id));
+    } else {
+      return Promise.resolve(Relation.query.save(req.body.id, req.body.cat_id));
     }
   })
   .then(() => {
@@ -84,8 +85,8 @@ router.post('/product/update', (req, res) => {
   });
 });
 
-router.post('/product/delete', (req, res) => {
-  Promise.all([product.query.delete(req.query.id), relation.query.delete.bySourceId(req.query.id)])
+router.post('/product/delete', Session.requireLogin, (req, res) => {
+  Promise.all([Product.query.delete(req.query.id), Relation.query.delete.bySourceId(req.query.id)])
   .then(() => {
     res.redirect('/product/?delete=true&name=' + req.body.name);
   })

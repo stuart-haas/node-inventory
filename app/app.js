@@ -45,7 +45,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Add router
-app.use(router)
+app.use(router);
 
 // Add static content
 app.use(express.static('app/static'));
@@ -56,9 +56,25 @@ app.use(user.route);
 app.use(product.route);
 app.use(category.route);
 
+app.use((req, res, next) => {
+  if(req.session && req.session.user) {
+    user.query.get.byId(req.session.user.id)
+    .then((user) => {
+      if (user) {
+        delete user.password;
+        req.session.user = user;
+        app.locals.user = req.session.user;
+      }
+      next();
+    });
+  } else {
+    app.locals = null;
+    next();
+  }
+});
+
 // Add listener to server
-app.listen(app.get('port'), (req, res) =>
-{
+app.listen(app.get('port'), (req, res) => {
   console.log('listening on port ' + app.get('port'));
 });
 

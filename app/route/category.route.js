@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const category = require('../model/category.model');
-const relation = require('../model/relation.model');
+const Session = require('../model/session.model');
+const Category = require('../model/category.model');
+const Relation = require('../model/relation.model');
 
 router.get('/category', (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 
-  category.query.get.all()
+  Category.query.get.all()
   .then((result) => {
     res.render('category', {
       pageTitle: "Categories",
@@ -22,15 +23,15 @@ router.get('/category', (req, res) => {
   });
 });
 
-router.get('/category/create', (req, res) => {
+router.get('/category/create', Session.requireLogin, (req, res) => {
 
   res.render('category/create', {
     pageTitle: "Create Category"
   });
 });
 
-router.get('/category/modify', (req, res) => {
-  category.query.get.byId(req.query.id)
+router.get('/category/modify', Session.requireLogin, (req, res) => {
+  Category.query.get.byId(req.query.id)
   .then((result) => {
     res.render('category/modify', {
       pageTitle: "Modify Category",
@@ -42,8 +43,8 @@ router.get('/category/modify', (req, res) => {
   });
 });;
 
-router.post('/category/save', (req, res) => {
-  category.query.save(req)
+router.post('/category/save', Session.requireLogin, (req, res) => {
+  Category.query.save(req)
   .then(() => {
     res.redirect('/category/?save=true&name=' + req.body.cat_name);
   })
@@ -52,8 +53,8 @@ router.post('/category/save', (req, res) => {
   });
 });
 
-router.post('/category/update', (req, res) => {
-  category.query.update(req)
+router.post('/category/update', Session.requireLogin, (req, res) => {
+  Category.query.update(req)
   .then(() => {
     res.redirect('/category/?update=true&name=' + req.body.cat_name);
   })
@@ -62,8 +63,8 @@ router.post('/category/update', (req, res) => {
   });
 });
 
-router.post('/category/delete', (req, res) => {
-  Promise.all([category.query.delete(req.query.id), relation.query.delete.byTargetId(req.query.id)])
+router.post('/category/delete', Session.requireLogin, (req, res) => {
+  Promise.all([Category.query.delete(req.query.id), Relation.query.delete.byTargetId(req.query.id)])
   .then(() => {
     res.redirect('/category/?delete=true&name=' + req.body.cat_name);
   })
