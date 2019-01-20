@@ -15,3 +15,15 @@ exports.refer = (url) => {
     }   
   }
 };
+
+exports.destroy = (req, res, next) => {
+  if (req.session) {
+    req.session.destroy((error) => {
+      if (error) {
+        return next(error);
+      } else {
+        res.redirect('/');
+      }
+    });
+  }
+}

@@ -7,17 +7,18 @@ const router = express.Router();
 const reload = require('reload');
 
 const knex = require('./db/knex.db');
-const index = require('./model/index.model');
-const user = require('./model/user.model');
-const product = require('./model/product.model');
-const category = require('./model/category.model');
-const relation = require('./model/relation.model');
+
+const Index = require('./model/index.model');
+const User = require('./model/user.model');
+const Product = require('./model/product.model');
+const Category = require('./model/category.model');
+const Relation = require('./model/relation.model');
 
 // Build schemas
-user.schema.build();
-product.schema.build();
-category.schema.build();
-relation.schema.build();
+User.schema.build();
+Product.schema.build();
+Category.schema.build();
+Relation.schema.build();
 
 // Set server port
 app.set('port', process.env.PORT || 3000);
@@ -51,14 +52,14 @@ app.use(router);
 app.use(express.static('app/static'));
 
 // Add routes
-app.use(index.route);
-app.use(user.route);
-app.use(product.route);
-app.use(category.route);
+app.use(Index.route);
+app.use(User.route);
+app.use(Product.route);
+app.use(Category.route);
 
 app.use((req, res, next) => {
   if(req.session && req.session.user) {
-    user.query.get.byId(req.session.user.id)
+    User.query.get.byId(req.session.user.id)
     .then((user) => {
       if (user) {
         delete user.password;
@@ -68,7 +69,7 @@ app.use((req, res, next) => {
       next();
     });
   } else {
-    app.locals = null;
+    app.locals.users = null;
     next();
   }
 });

@@ -52,8 +52,9 @@ router.get('/product/modify', Session.requireLogin, (req, res) => {
 router.post('/product/save', Session.requireLogin, (req, res) => {
   Product.query.save(req)
   .then((source_id) => {
-    if(req.body.cat_id)
-      return Promise.resolve(Relation.query.save(source_id, req.body.cat_id))
+    if(req.body.cat_id) {
+      return Promise.resolve(Relation.query.save(source_id, req.body.cat_id));
+    }
   })
   .then(() => {
     res.redirect('/product/?save=true&name=' + req.body.name);
