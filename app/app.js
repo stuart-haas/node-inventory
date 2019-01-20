@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const reload = require('reload');
@@ -33,13 +32,9 @@ app.locals.siteTitle = "Inventory";
 // Generate sessions
 var sessionStore = new MySQLStore(knex.client.config.connection);
 
-var salt1 = bcrypt.genSaltSync();
-var salt2 = bcrypt.genSaltSync();
-var secret = bcrypt.hashSync(salt1 + salt2, 10);
-
 app.use(session({
   key: 'sid',
-  secret: secret,
+  secret: 'secret',
   store: sessionStore,
   resave: false,
   saveUninitialized: false
