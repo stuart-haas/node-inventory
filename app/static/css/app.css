@@ -1,3 +1,7 @@
+small {
+  color: red;
+}
+
 .navbar-nav .nav-item .nav-link {
   text-transform: capitalize;
 }

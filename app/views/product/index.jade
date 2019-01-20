@@ -1,5 +1,8 @@
 extends ../layout
 
+block header
+  include ../includes/navigation
+
 block content
   div.container.my-5.mx-5
     if(query.save)

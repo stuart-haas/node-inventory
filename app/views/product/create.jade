@@ -1,5 +1,8 @@
 extends ../layout
 
+block header
+  include ../includes/navigation
+
 block content
   div.container.my-5
     div.row
@@ -9,7 +12,7 @@ block content
             form(method="post")
               div.form-group
                 label Name
-                input(type="text", name="name", placeholder="Name").form-control
+                input(type="text", name="name", placeholder="Name", required).form-control
               div.form-group
                 label Price
                 input(type="text", name="price", placeholder="Price").form-control
@@ -20,6 +23,7 @@ block content
                 if(categories.length)
                   label Category
                   select(name="cat_id").form-control
+                    option(value="") –
                     for category in categories
                       option(value="#{category.id}") #{category.cat_name}
               div.form-group

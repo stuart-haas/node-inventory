@@ -1,5 +1,8 @@
 extends ../layout
 
+block header
+  include ../includes/navigation
+
 block content
   div.container.my-5
     div.row
@@ -9,7 +12,7 @@ block content
             form(method="post")
               div.form-group
                 label Name
-                input(type="text", name="cat_name", placeholder="Name").form-control
+                input(type="text", name="cat_name", placeholder="Name", required).form-control
               div.form-group
                 div.btn-group
                   button(type="submit", formaction="/category/save").btn.btn-success Save Category

@@ -35,15 +35,12 @@ router.get('/product/create', (req, res) => {
 });
 
 router.get('/product/modify', (req, res) => {
-  product.query.get.byId(req.query.id)
-  .then((result) => {
-    category.query.get.all()
-    .then((categories) => {
-      res.render('product/modify', {
-        pageTitle: "Modify Product",
-        product: result[0],
-        categories: categories
-      });
+  Promise.all([product.query.get.byId(req.query.id), category.query.get.all()])
+  .then((results) => {
+    res.render('product/modify', {
+      pageTitle: "Modify Product",
+      product: results[0][0],
+      categories: results[1]
     });
   })
   .catch((error) => {
@@ -55,12 +52,10 @@ router.post('/product/save', (req, res) => {
   product.query.save(req)
   .then((source_id) => {
     if(req.body.cat_id)
-      relation.query.save(source_id, req.body.cat_id)
-      .then(() => {
-        res.redirect('/product/?save=true&name=' + req.body.name);
-      })
-    else
-      res.redirect('/product/?save=true&name=' + req.body.name);
+      return Promise.resolve(relation.query.save(source_id, req.body.cat_id))
+  })
+  .then(() => {
+    res.redirect('/product/?save=true&name=' + req.body.name);
   })
   .catch((error) => {
     console.error(error);
@@ -68,26 +63,21 @@ router.post('/product/save', (req, res) => {
 });
 
 router.post('/product/update', (req, res) => {
-  product.query.update(req)
-  .then(() => {
-    relation.query.get.bySourceId(req.body.id)
-    .then((result) => {
+  Promise.all([product.query.update(req), relation.query.get.bySourceId(req.body.id)])
+  .then((results) => {
+    if(results[1].length)
       if(req.body.cat_id) {
-        if(result.length)
-          relation.query.update(req.body.id, req.body.cat_id)
-          .then(() => {
-            res.redirect('/product/?update=true&name=' + req.body.name);
-          })
-        else {
-          relation.query.save(req.body.id, req.body.cat_id)
-          .then(() => {
-            res.redirect('/product/?update=true&name=' + req.body.name);
-          })
-        }
+        return Promise.resolve(relation.query.update(req.body.id, req.body.cat_id));
       }
-      else
-        res.redirect('/product/?update=true&name=' + req.body.name);
-    })
+      else {
+        return Promise.resolve(relation.query.delete.bySourceId(req.body.id));
+      }
+    else {
+      return Promise.resolve(relation.query.save(req.body.id, req.body.cat_id));
+    }
+  })
+  .then(() => {
+    res.redirect('/product/?update=true&name=' + req.body.name);
   })
   .catch((error) => {
     console.error(error);
@@ -95,23 +85,13 @@ router.post('/product/update', (req, res) => {
 });
 
 router.post('/product/delete', (req, res) => {
-  product.query.delete(req.query.id)
+  Promise.all([product.query.delete(req.query.id), relation.query.delete.bySourceId(req.query.id)])
   .then(() => {
-    relation.query.get.bySourceId(req.query.id)
-    .then((result) => {
-      if(result.length) {
-        relation.query.delete.bySourceId(req.query.id)
-        .then(() => {
-          res.redirect('/product/?delete=true&name=' + req.body.name);
-        });
-      }
-      else 
-        res.redirect('/product/?delete=true&name=' + req.body.name);
-    });
+    res.redirect('/product/?delete=true&name=' + req.body.name);
   })
   .catch((error) => {
     console.error(error);
-  });
+  })
 });
 
 module.exports = router;

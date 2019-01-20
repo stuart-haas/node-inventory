@@ -1,5 +1,8 @@
 extends ../layout
 
+block header
+  include ../includes/navigation
+
 block content
   div.container.my-5
     div.row
@@ -10,7 +13,7 @@ block content
               input(type="hidden", name="id", value="#{category.id}")
               div.form-group
                 label Name
-                input(type="text", name="cat_name", placeholder="Name", value="#{category.cat_name}").form-control
+                input(type="text", name="cat_name", placeholder="Name", value="#{category.cat_name}", required).form-control
               div.form-group
                 div.btn-group
                   button(type="submit", formaction="/category/update/?id=#{category.id}").btn.btn-primary Update Category

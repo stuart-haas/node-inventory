@@ -63,12 +63,9 @@ router.post('/category/update', (req, res) => {
 });
 
 router.post('/category/delete', (req, res) => {
-  category.query.delete(req.query.id)
+  Promise.all([category.query.delete(req.query.id), relation.query.delete.byTargetId(req.query.id)])
   .then(() => {
-    relation.query.delete.byTargetId(req.query.id)
-    .then(() => {
-      res.redirect('/category/?delete=true&name=' + req.body.cat_name);
-    });
+    res.redirect('/category/?delete=true&name=' + req.body.cat_name);
   })
   .catch((error) => {
     console.error(error);

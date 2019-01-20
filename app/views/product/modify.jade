@@ -1,5 +1,8 @@
 extends ../layout
 
+block header
+  include ../includes/navigation
+
 block content
   div.container.my-5
     div.row
@@ -10,7 +13,7 @@ block content
               input(type="hidden", name="id", value="#{product.id}")
               div.form-group
                 label Name
-                input(type="text", name="name", placeholder="Name", value="#{product.name}").form-control
+                input(type="text", name="name", placeholder="Name", value="#{product.name}", required).form-control
               div.form-group
                 label Price
                 input(type="text", name="price", placeholder="Price", value="#{product.price}").form-control
@@ -21,6 +24,7 @@ block content
                 if(categories.length)
                   label Category
                   select(name="cat_id").form-control
+                    option(value="") –
                     for category in categories
                       option(value="#{category.id}" selected='#{category.cat_name}' == '#{product.cat_name}') #{category.cat_name}
               div.form-group

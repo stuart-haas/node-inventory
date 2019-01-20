@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  div.container.my-5
+    div.row.justify-content-center
+      div.col-6
+        div.card
+          div.card-body
+            form(method="post")
+              div.form-group
+                label Username
+                input(type="text", name="username", placeholder="User Name", required).form-control
+              div.form-group
+                label Password
+                input(type="password", name="password", placeholder="Password", required).form-control
+              div.form-group
+                label Confirm Password
+                input(type="password", placeholder="Confirm Password", required).form-control
+              div.form-group
+                div.btn-group
+                  button(type="submit", formaction="/user/save").btn.btn-success Register
+        a(href="/admin/login") Login
