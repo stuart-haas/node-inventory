@@ -12,7 +12,11 @@ exports.get = {
   }
 };
 
-exports.save = (req) => {
-  req.body.created_at = new Date();
-  return knex('users').insert(req.body);
+exports.save = (username, hash) => {
+  var user = {
+    username: username,
+    password: hash,
+    created_at: new Date()
+  }
+  return knex('users').insert(user);
 };

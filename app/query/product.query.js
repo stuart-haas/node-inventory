@@ -25,7 +25,7 @@ exports.get = {
 };
 
 exports.save = (req) => {
-  let product = {
+  var product = {
     id: req.body.id,
     name: req.body.name,
     price: req.body.price,
@@ -36,7 +36,7 @@ exports.save = (req) => {
 };
 
 exports.update = (req) => {
-  let product = {
+  var product = {
     id: req.body.id,
     name: req.body.name,
     price: req.body.price,
