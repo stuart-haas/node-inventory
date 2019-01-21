@@ -16,6 +16,7 @@ router.get('/category', (req, res) => {
       path: path,
       query: query,
       categories: result,
+      user: req.session.user
     });
   })
   .catch((error) => {
@@ -26,7 +27,8 @@ router.get('/category', (req, res) => {
 router.get('/category/create', Session.requireLogin, (req, res) => {
 
   res.render('category/create', {
-    pageTitle: "Create Category"
+    pageTitle: "Create Category",
+    user: req.session.user
   });
 });
 
@@ -35,7 +37,8 @@ router.get('/category/modify', Session.requireLogin, (req, res) => {
   .then((result) => {
     res.render('category/modify', {
       pageTitle: "Modify Category",
-      category: result
+      category: result,
+      user: req.session.user
     });
   })
   .catch((error) => {

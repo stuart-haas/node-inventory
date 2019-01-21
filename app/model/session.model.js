@@ -6,9 +6,9 @@ exports.requireLogin = (req, res, next) => {
   }
 }
 
-exports.refer = (url) => {
+exports.check = (url) => {
   return (req, res, next) => {
-    if (req.session.user) {
+    if (req.session && req.session.user) {
         res.redirect(url);
     } else {
         next();

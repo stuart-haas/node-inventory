@@ -6,27 +6,44 @@ const Session = require('../model/session.model');
 const User = require('../model/user.model');
 
 router.get('/admin', (req, res) => {
-  res.render('admin', { pageTitle: "Admin" });
+  res.render('admin', { 
+    pageTitle: "Admin",
+    user: req.session.user 
+  });
 });
 
 router.get('/profile', Session.requireLogin, (req, res) => {
   User.query.get.byId(req.session.user.id)
   .then((user) => {
-    res.render('user/profile', { pageTitle: "Profile", sessionId: req.session.user.id, username: user.username })
+    res.render('user/profile', { 
+      pageTitle: "Profile",
+      user: req.session.user 
+    });
   })
 });
 
-router.get('/register', Session.refer('/profile'), (req, res) => {
-  res.render('admin/register', { pageTitle: "Register" });
+router.get('/register', Session.check('/profile'), (req, res) => {
+  res.render('admin/register', { 
+    pageTitle: "Register",
+    user: req.session.user 
+  });
 });
 
 router.post('/register', (req, res) => {
   User.validate(req.body.username, req.body.password, req.body.passwordConf, (user, password, error) => {
     if(error) {
       if(error == User.ERROR.USER.MATCH) {
-        res.render('admin/register', { pageTitle: "Register", username: user, error: { username: "Username already exists" }});
+        res.render('admin/register', { 
+          pageTitle: "Register", 
+          username: user, 
+          error: { username: "Username already exists" }
+        });
       } else if(error == User.ERROR.PASSWORD.NO_MATCH) {
-        res.render('admin/register', { pageTitle: "Register", username: user, error: { password: "Passwords do not match" }});
+        res.render('admin/register', { 
+          pageTitle: "Register", 
+          username: user, 
+          error: { password: "Passwords do not match" }
+        });
       }
     }
     else {
@@ -40,17 +57,27 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.get('/login', Session.refer('/profile'), (req, res) => {
-  res.render('admin/login', { pageTitle: "Login" });
+router.get('/login', Session.check('/profile'), (req, res) => {
+  res.render('admin/login', { 
+    pageTitle: "Login", 
+    user: req.session.user 
+  });
 });
 
 router.post('/login', (req, res) => {
   User.authenticate(req.body.username, req.body.password, (user, error) => {
     if(error) {
       if(error == User.ERROR.USER.NO_MATCH) {
-        res.render('admin/login', { pageTitle: "Login", username: user, error: { username: "Wrong username" }});
+        res.render('admin/login', { 
+          pageTitle: "Login", 
+          username: user, error: { username: "Wrong username" }
+        });
       } else if(error == User.ERROR.PASSWORD.NO_MATCH) {
-        res.render('admin/login', { pageTitle: "Login", username: user, error: { password: "Wrong password" }});
+        res.render('admin/login', { 
+          pageTitle: "Login", 
+          username: user, 
+          error: { password: "Wrong password" }
+        });
       }
     } else {
       req.session.user = user;

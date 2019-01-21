@@ -7,6 +7,7 @@ const router = express.Router();
 const reload = require('reload');
 
 const knex = require('./db/knex.db');
+const sessionStore = new MySQLStore(knex.client.config.connection);
 
 const Index = require('./model/index.model');
 const User = require('./model/user.model');
@@ -31,8 +32,6 @@ app.set('views', 'app/views');
 app.locals.siteTitle = "Inventory";
 
 // Generate sessions
-var sessionStore = new MySQLStore(knex.client.config.connection);
-
 app.use(session({
   key: 'sid',
   secret: 'secret',
@@ -62,14 +61,13 @@ app.use((req, res, next) => {
     User.query.get.byId(req.session.user.id)
     .then((user) => {
       if (user) {
-        delete user.password;
+        req.user = user;
+        delete req.user.password;
         req.session.user = user;
-        app.locals.user = req.session.user;
       }
       next();
     });
   } else {
-    app.locals.users = null;
     next();
   }
 });

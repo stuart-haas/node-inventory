@@ -10,7 +10,11 @@ router.get('/', (req, res) => {
 router.get('/dashboard', Session.requireLogin, (req, res) => {
   var path = req.path.replace(/\//g, "");
 
-  res.render('index', { pageTitle: "Dashboard", path: path });
+  res.render('index', { 
+    pageTitle: "Dashboard", 
+    path: path, 
+    user: req.session.user 
+  });
 });
 
 module.exports = router;

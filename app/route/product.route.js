@@ -17,6 +17,7 @@ router.get('/product', (req, res) => {
       path: path,
       query: query,
       products: results,
+      user: req.session.user
     });
   })
   .catch((error) => {
@@ -30,7 +31,8 @@ router.get('/product/create', Session.requireLogin, (req, res) => {
     .then((categories) => {
       res.render('product/create', {
         pageTitle: "Create Product",
-        categories: categories
+        categories: categories,
+        user: req.session.user
       });
     });
 });
@@ -41,7 +43,8 @@ router.get('/product/modify', Session.requireLogin, (req, res) => {
     res.render('product/modify', {
       pageTitle: "Modify Product",
       product: results[0],
-      categories: results[1]
+      categories: results[1],
+      user: req.session.user
     });
   })
   .catch((error) => {
