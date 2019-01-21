@@ -1,12 +1,5 @@
-const knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host : 'localhost',
-    port: 3306,
-    user : 'root',
-    password : 'root',
-    database : 'node_inventory'
-  }
-});
+const knexFile = require('../../knexfile');
+
+const knex = require('knex')(knexFile.development);
 
 module.exports = knex;
