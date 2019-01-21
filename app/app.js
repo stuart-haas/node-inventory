@@ -13,13 +13,6 @@ const Index = require('./model/index.model');
 const User = require('./model/user.model');
 const Product = require('./model/product.model');
 const Category = require('./model/category.model');
-const Relation = require('./model/relation.model');
-
-// Build schemas
-User.schema.build();
-Product.schema.build();
-Category.schema.build();
-Relation.schema.build();
 
 // Set server port
 app.set('port', process.env.PORT || 3000);

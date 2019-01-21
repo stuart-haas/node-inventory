@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 
 exports.route = require('../route/user.route');
 exports.query = require('../query/user.query');
-exports.schema = require('../schema/user.schema');
 
 exports.ERROR = {
   USER: {
