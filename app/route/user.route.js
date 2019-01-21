@@ -70,7 +70,7 @@ router.post('/login', (req, res) => {
       if(error == User.ERROR.USER.NO_MATCH) {
         res.render('admin/login', { 
           pageTitle: "Login", 
-          username: user, error: { username: "Wrong username" }
+          username: user, error: { username: "Username does not exist" }
         });
       } else if(error == User.ERROR.PASSWORD.NO_MATCH) {
         res.render('admin/login', { 
