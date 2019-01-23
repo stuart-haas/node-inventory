@@ -5,7 +5,7 @@ const Session = require('../model/session.model');
 const Category = require('../model/category.model');
 const Relation = require('../model/relation.model');
 
-router.get('/category', (req, res) => {
+router.get('/category', Session.requireLogin, (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 

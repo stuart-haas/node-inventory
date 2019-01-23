@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   res.status(301).redirect('/dashboard');
 });
 
-router.get('/dashboard', Session.requireLogin, (req, res) => {
+router.get('/dashboard', (req, res) => {
   var path = req.path.replace(/\//g, "");
 
   res.render('index', { 

@@ -6,7 +6,7 @@ const Product = require('../model/product.model');
 const Category = require('../model/category.model');
 const Relation = require('../model/relation.model');
 
-router.get('/product', (req, res) => {
+router.get('/product', Session.requireLogin, (req, res) => {
   var path = req.path.replace(/\//g, "");
   var query = req.query;
 

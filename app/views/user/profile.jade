@@ -12,11 +12,14 @@ block content
       main.col-9.content.p-5
         form(method="post").w-50.mx-auto
           div.form-group
+            label User Name
+            input(type="text", value="#{user.username}", placeholder="First Name", disabled).form-control
+          div.form-group
             label First Name
-            input(type="text", name="firstName", value="#{typeof user.firstName === 'undefined' ? '' : user.firstName}", placeholder="First Name").form-control
+            input(type="text", name="firstName", value="#{user.firstName == null ? '' : user.firstName}", placeholder="First Name").form-control
           div.form-group
             label Last Name
-            input(type="text", name="lastName", value="#{typeof user.lastName === 'undefined' ? '' : user.lastName}", placeholder="Last Name").form-control
+            input(type="text", name="lastName", value="#{user.lastName == null ? '' : user.lastName}", placeholder="Last Name").form-control
           div.form-group
             div.btn-group
               button(type="submit", formaction="/profile/update").btn.btn-success Update
