@@ -1,4 +1,5 @@
 # uploads
+/app/static/uploads
 
 # dependencies
 /node_modules
