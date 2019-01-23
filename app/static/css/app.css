@@ -2,6 +2,11 @@ small {
   color: red;
 }
 
+img {
+  width: 50%;
+  height: auto;
+}
+
 .navbar-nav .nav-item .nav-link {
   text-transform: capitalize;
 }

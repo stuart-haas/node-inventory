@@ -25,6 +25,7 @@
     "express": "^4.16.4",
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.15.6",
+    "formidable": "^1.2.1",
     "knex": "^0.16.3",
     "mongoose": "^5.3.13",
     "mysql": "^2.16.0",

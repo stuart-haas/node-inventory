@@ -10,10 +10,10 @@ block content
         nav.nav.flex-column
           a(href="/profile").nav-link.active Profile
       main.col-9.content.p-5
-        form(method="post").w-50.mx-auto
+        form(method="post", enctype="multipart/form-data").w-50.mx-auto
           div.form-group
             label User Name
-            input(type="text", value="#{user.username}", placeholder="First Name", disabled).form-control
+            input(type="text", value="#{user.username}", disabled).form-control
           div.form-group
             label First Name
             input(type="text", name="firstName", value="#{user.firstName == null ? '' : user.firstName}", placeholder="First Name").form-control
@@ -21,7 +21,13 @@ block content
             label Last Name
             input(type="text", name="lastName", value="#{user.lastName == null ? '' : user.lastName}", placeholder="Last Name").form-control
           div.form-group
+            if(user.photo)
+              div
+                img(src="#{user.photo}")
+            label Photo
+            div.custom-file
+              input(type="file" name="upload").custom-file-input
+              label.custom-file-label Choose file
+          div.form-group
             div.btn-group
               button(type="submit", formaction="/profile/update").btn.btn-success Update
-    
-        

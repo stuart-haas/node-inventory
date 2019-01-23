@@ -21,10 +21,11 @@ exports.save = (username, hash) => {
   return knex('users').insert(user);
 };
 
-exports.update = (userId, req) => {
+exports.update = (userId, req, filePath) => {
   var user = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    photo: filePath,
     updated_at: new Date()
   }
   return knex('users')
