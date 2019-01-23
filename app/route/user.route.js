@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const Session = require('../model/session.model');
 const User = require('../model/user.model');
 
-router.get('/admin', (req, res) => {
+router.get('/admin', Session.requireLogin, (req, res) => {
   res.render('admin', { 
     pageTitle: "Admin",
     user: req.session.user 
@@ -22,7 +22,14 @@ router.get('/profile', Session.requireLogin, (req, res) => {
   })
 });
 
-router.get('/register', Session.check('/profile'), (req, res) => {
+router.post('/profile/update', Session.requireLogin, (req, res) => {
+  User.query.update(req.session.user.id, req)
+  .then((user) => {
+    res.redirect('/profile?update=true');
+  })
+});
+
+router.get('/register', Session.redirect('/profile'), (req, res) => {
   res.render('admin/register', { 
     pageTitle: "Register",
     user: req.session.user 
@@ -57,14 +64,14 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.get('/login', Session.check('/profile'), (req, res) => {
+router.get('/login', Session.redirect('/profile'), (req, res) => {
   res.render('admin/login', { 
     pageTitle: "Login", 
     user: req.session.user 
   });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', Session.requireLogin, (req, res) => {
   User.authenticate(req.body.username, req.body.password, (user, error) => {
     if(error) {
       if(error == User.ERROR.USER.NO_MATCH) {

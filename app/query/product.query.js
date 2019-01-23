@@ -37,7 +37,6 @@ exports.save = (req) => {
 
 exports.update = (req) => {
   var product = {
-    id: req.body.id,
     name: req.body.name,
     price: req.body.price,
     quantity: req.body.quantity,

@@ -20,3 +20,16 @@ exports.save = (username, hash) => {
   }
   return knex('users').insert(user);
 };
+
+exports.update = (userId, req) => {
+  var user = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    updated_at: new Date()
+  }
+  return knex('users')
+  .where('id', userId)
+  .update(
+    user
+  );
+};

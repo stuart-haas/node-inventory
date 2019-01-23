@@ -4,6 +4,21 @@ block header
   include ../includes/navigation
 
 block content
-  div.container.my-5.mx-5
-    p You are logged in as #{user.username}
+  div.container-fluid
+    div.row.wrapper
+      aside.col-3.sidebar
+        nav.nav.flex-column
+          a(href="/profile").nav-link.active Profile
+      main.col-9.content.p-5
+        form(method="post").w-50.mx-auto
+          div.form-group
+            label First Name
+            input(type="text", name="firstName", value="#{typeof user.firstName === 'undefined' ? '' : user.firstName}", placeholder="First Name").form-control
+          div.form-group
+            label Last Name
+            input(type="text", name="lastName", value="#{typeof user.lastName === 'undefined' ? '' : user.lastName}", placeholder="Last Name").form-control
+          div.form-group
+            div.btn-group
+              button(type="submit", formaction="/profile/update").btn.btn-success Update
+    
         
