@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const formidable = require('formidable');
-const path = require('path');
 
 const Session = require('../model/session.model');
 const User = require('../model/user.model');
+const File = require('../model/file.model');
 
 router.get('/admin', Session.requireLogin, (req, res) => {
   res.render('admin', { 
@@ -24,21 +23,11 @@ router.get('/profile', Session.requireLogin, (req, res) => {
   })
 });
 
-router.post('/profile/update', Session.requireLogin, (req, res) => {
-  var form = new formidable.IncomingForm();
-
-  form.parse(req);
-
-  form.on('fileBegin', function (name, file){
-    file.path = path.join(__dirname, '../static/uploads/') + file.name;
-  });
-
-  form.on('file', function (name, file){
-    User.query.update(req.session.user.id, req, '../uploads/' + file.name)
+router.post('/profile/update', [Session.requireLogin, File.upload] , (req, res) => {
+  User.query.update(req.session.user.id, req)
     .then((user) => {
       res.redirect('/profile?update=true');
     });
-  });
 });
 
 router.get('/register', Session.redirect('/profile'), (req, res) => {
