@@ -71,7 +71,7 @@ router.get('/login', Session.redirect('/profile'), (req, res) => {
   });
 });
 
-router.post('/login', Session.requireLogin, (req, res) => {
+router.post('/login', (req, res) => {
   User.authenticate(req.body.username, req.body.password, (user, error) => {
     if(error) {
       if(error == User.ERROR.USER.NO_MATCH) {
