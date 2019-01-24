@@ -24,8 +24,10 @@ config.tasks.css.path = path.join(config.root.src, config.tasks.css.src, '**/*.{
 
 config.tasks.js.path = path.join(config.root.src, config.tasks.js.src, '**/*.{'+ config.tasks.js.extensions + '}');
 
+// dev
 gulp.task(config.tasks.dev.cmd, config.tasks.dev.list);
 
+// nodemon
 gulp.task(config.tasks.nodemon.cmd, function (done) {
     nodemon({ 
         script: config.tasks.nodemon.script,
