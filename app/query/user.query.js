@@ -21,15 +21,19 @@ exports.save = (username, hash) => {
   return knex('users').insert(user);
 };
 
-exports.update = (userId, req) => {
+exports.update = (req) => {
   var user = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    photo: req.file.relativePath,
     updated_at: new Date()
   }
+
+  if(req.file) {
+    user.photo = req.file.relativePath;
+  }
+
   return knex('users')
-  .where('id', userId)
+  .where('id', req.session.user.id)
   .update(
     user
   );

@@ -10,7 +10,7 @@ block content
         nav.nav.flex-column
           a(href="/profile").nav-link.active Profile
       main.col-9.content.p-5
-        form(method="post", action="/profile/update", enctype="multipart/form-data").w-50.mx-auto#profile-form
+        form(method="post", enctype="multipart/form-data").w-50.mx-auto#profile-form
           div.form-group
             label User Name
             input(type="text", value="#{user.username}", disabled).form-control
@@ -31,4 +31,4 @@ block content
                 label.custom-file-label Choose file
             div.form-group.mt-2
               div.btn-group
-                button(type="submit").btn.btn-success Update
+                button(type="submit", formaction="/profile/update").btn.btn-success Update
