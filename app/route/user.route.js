@@ -6,18 +6,14 @@ const Session = require('../model/session.model');
 const User = require('../model/user.model');
 const File = require('../model/file.model');
 
-router.get('/admin', Session.requireLogin, (req, res) => {
-  res.render('admin', { 
-    pageTitle: "Admin",
-    user: req.session.user 
-  });
-});
-
 router.get('/profile', Session.requireLogin, (req, res) => {
+  var path = req.path.replace(/\//g, "");
+
   User.query.get.byId(req.session.user.id)
   .then((user) => {
     res.render('user/profile', { 
       pageTitle: "Profile",
+      path: path,
       user: req.session.user 
     });
   })
