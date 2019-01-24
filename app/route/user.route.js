@@ -19,7 +19,7 @@ router.get('/profile', Session.requireLogin, (req, res) => {
   })
 });
 
-router.post('/profile/update', [Session.requireLogin, File.upload] , (req, res) => {
+router.post('/profile/update', Session.requireLogin, (req, res) => {
   User.query.update(req)
     .then((user) => {
       res.redirect('/profile?update=true');

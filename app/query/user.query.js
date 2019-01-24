@@ -28,10 +28,6 @@ exports.update = (req) => {
     updated_at: new Date()
   }
 
-  if(req.file) {
-    user.photo = req.file.relativePath;
-  }
-
   return knex('users')
   .where('id', req.session.user.id)
   .update(
