@@ -1,0 +1,30 @@
+small {
+  color: red;
+}
+
+img {
+  width: 25%;
+  height: auto;
+}
+
+.navbar-nav .nav-item .nav-link {
+  text-transform: capitalize;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+.sidebar {
+  min-height: 100vh;
+  padding: 0;
+  background: #eee;
+}
+
+.sidebar .nav .nav-link {
+  padding: 1em;
+  background: #fff;
+  border-left: solid 4px red;
+}

@@ -1,23 +1,2 @@
-$(function(){
-
-  $('.alert').delay(2500).fadeOut(250);
-
-  $(':file').on('fileselect', function(event, numFiles, label) {
-
-    var input = $(this).parents('.form-group').find('.custom-file-label'),
-    log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-    if( input.length ) {
-        input.text(log);
-    } else {
-      console.log(log);
-    }
-  });
-
-  $(document).on('change', ':file', function() {
-    var input = $(this),
-    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-  });
-});
+!function(n){var r={};function o(e){if(r[e])return r[e].exports;var t=r[e]={i:e,l:!1,exports:{}};return n[e].call(t.exports,t,t.exports,o),t.l=!0,t.exports}o.m=n,o.c=r,o.d=function(e,t,n){o.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},o.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.t=function(t,e){if(1&e&&(t=o(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(o.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)o.d(n,r,function(e){return t[e]}.bind(null,r));return n},o.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(t,"a",t),t},o.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},o.p="",o(o.s=0)}([function(e,t,n){"use strict";$(function(){$(".alert").delay(2500).fadeOut(250),$(":file").on("fileselect",function(e,t,n){var r=$(this).parents(".form-group").find(".custom-file-label"),o=1<t?t+" files selected":n;r.length?r.text(o):console.log(o)}),$(document).on("change",":file",function(){var e=$(this),t=e.get(0).files?e.get(0).files.length:1,n=e.val().replace(/\\/g,"/").replace(/.*\//,"");e.trigger("fileselect",[t,n])})})}]);
+//# sourceMappingURL=maps/app.js.map

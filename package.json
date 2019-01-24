@@ -1,10 +1,16 @@
 {
   "name": "inventory",
   "version": "1.0.0",
-  "description": "Node and Express inventory application",
+  "description": "NodeJS, Express, and MySQL inventory application",
   "main": "app/app.js",
   "scripts": {
-    "start": "nodemon -e css,jade,js,json --watch app"
+    "build:css": "gulp css",
+    "build:js": "gulp js",
+    "build": "gulp css && gulp js",
+    "watch:css": "gulp watch css",
+    "watch:js": "gulp watch js",
+    "watch": "gulp watch",
+    "dev": "nodemon -e jade,js,json --watch app --exec npm run watch"
   },
   "repository": {
     "type": "git",
@@ -19,21 +25,41 @@
   "dependencies": {
     "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
-    "connect-session-knex": "^1.4.0",
-    "cookie-parser": "^1.4.3",
-    "distinct-colors": "^1.0.4",
     "express": "^4.16.4",
     "express-mysql-session": "^2.1.0",
-    "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "knex": "^0.16.3",
-    "mongoose": "^5.3.13",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.7",
     "reload": "^2.2.2",
-    "rgb-hex": "^2.1.0"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-latest": "^6.24.1",
+    "bourbon": "^4.3.4",
+    "bourbon-neat": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-changed": "^3.2.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-notify": "^3.2.0",
+    "gulp-param": "^1.0.3",
+    "gulp-plumber": "^1.2.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sass-lint": "^1.4.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-strip-comments": "^2.5.2",
+    "gulp-uglify": "^3.0.1",
+    "gulp-util": "^3.0.8",
+    "jshint": "^2.9.6",
+    "run-sequence": "^2.2.1"
   },
   "devDependencies": {
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "webpack-stream": "^5.1.1"
   }
 }
