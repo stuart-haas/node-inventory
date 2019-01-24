@@ -17,11 +17,25 @@ changed = require('gulp-changed'),
 path = require('path'),
 runSequence = require('run-sequence'),
 webpack = require('webpack-stream'),
+nodemon = require('gulp-nodemon'),
 config = require('./gulpfile.config.json');
 
 config.tasks.css.path = path.join(config.root.src, config.tasks.css.src, '**/*.{'+ config.tasks.css.extensions + '}');
 
 config.tasks.js.path = path.join(config.root.src, config.tasks.js.src, '**/*.{'+ config.tasks.js.extensions + '}');
+
+gulp.task(config.tasks.dev.cmd, config.tasks.dev.list);
+
+gulp.task(config.tasks.nodemon.cmd, function (done) {
+    nodemon({ 
+        script: config.tasks.nodemon.script,
+        ext: config.tasks.nodemon.ext,
+        ignore: config.tasks.nodemon.ignore
+    })
+    .on('restart', function () {
+        console.log('restarted!');
+    });
+});
 
 // css:lint
 gulp.task(config.tasks.css.cmd.lint, function() {

@@ -10,6 +10,18 @@
     },
 
     "tasks": {
+        "dev": {
+            "cmd": "dev",
+            "list": ["nodemon", "watch"]
+        },
+
+        "nodemon": {
+            "cmd": "nodemon",
+            "script": "./app/app.js",
+            "ext": "jade js",
+            "ignore": ["/src/", "/app/static/", "gulpfile.js", "webpack.config.js"]
+        },
+
         "watch": {
             "cmd": "watch", 
             "list": ["css", "js"]

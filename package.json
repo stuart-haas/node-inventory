@@ -10,7 +10,8 @@
     "watch:css": "gulp watch css",
     "watch:js": "gulp watch js",
     "watch": "gulp watch",
-    "dev": "nodemon -e jade,js,json --watch app --exec npm run watch"
+    "nodemon": "gulp nodemon",
+    "dev": "gulp dev"
   },
   "repository": {
     "type": "git",
@@ -59,6 +60,7 @@
     "run-sequence": "^2.2.1"
   },
   "devDependencies": {
+    "gulp-nodemon": "^2.4.2",
     "jade": "^1.11.0",
     "webpack-stream": "^5.1.1"
   }
