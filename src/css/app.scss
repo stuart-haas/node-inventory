@@ -7,8 +7,14 @@ img {
   height: auto;
 }
 
-.navbar-nav .nav-item .nav-link {
-  text-transform: capitalize;
+.navbar-nav {
+
+  .nav-item {
+
+    .nav-link {
+      text-transform: capitalize;
+    }
+  }
 }
 
 .wrapper {
@@ -21,10 +27,13 @@ img {
   min-height: 100vh;
   padding: 0;
   background: #eee;
-}
 
-.sidebar .nav .nav-link {
-  padding: 1em;
-  background: #fff;
-  border-left: solid 4px red;
+  .nav {
+
+    .nav-link {
+      padding: 1em;
+      background: #fff;
+      border-left: solid 4px red;
+    }
+  }
 }

@@ -18,7 +18,7 @@ path = require('path'),
 runSequence = require('run-sequence'),
 webpack = require('webpack-stream'),
 nodemon = require('gulp-nodemon'),
-config = require('./gulpfile.config.json');
+config = require('./gulpfile.config');
 
 config.tasks.css.path = path.join(config.root.src, config.tasks.css.src, '**/*.{'+ config.tasks.css.extensions + '}');
 

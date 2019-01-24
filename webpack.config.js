@@ -1,4 +1,4 @@
-const config = require('./gulpfile.config.json');
+const config = require('./gulpfile.config');
 
 var env = config.env.current;
 var entries = config.tasks.js.env[env].entries;
