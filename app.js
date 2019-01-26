@@ -21,7 +21,7 @@ app.locals.siteTitle = "Inventory";
 
 // set view engine to jade
 app.set('view engine', 'jade');
-app.set('views', 'app/views');
+app.set('views', './app/views');
 
 // add body parser
 app.use(bodyParser.json());
@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 });
 
 // add static content
-app.use(express.static('public'));
+app.use(express.static('./public'));
 
 // add router
 app.use(router);

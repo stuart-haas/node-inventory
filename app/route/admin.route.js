@@ -15,7 +15,6 @@ router.get('/admin', Session.requireRole(1), (req, res) => {
 });
 
 router.post('/upload', File.upload, (req, res) => {
-  console.log(req.files);
   res.redirect('/admin');
 });
 
