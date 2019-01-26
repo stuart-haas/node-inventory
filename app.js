@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const reload = require('reload');
 
+// database configuration
 const knex = require('./app/db/knex.db');
 const sessionStore = new MySQLStore(knex.client.config.connection);
 
@@ -15,17 +16,14 @@ const User = require('./app/model/user.model');
 const Product = require('./app/model/product.model');
 const Category = require('./app/model/category.model');
 
-// Set server port
-app.set('port', process.env.PORT || 3000);
-
-// Set view engine to jade
+// set view engine to jade
 app.set('view engine', 'jade');
 app.set('views', 'app/views');
 
-// Set locals
+// set locals
 app.locals.siteTitle = "Inventory";
 
-// Generate sessions
+// configure session store
 app.use(session({
   key: 'sid',
   secret: 'secret',
@@ -34,23 +32,24 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Add body parser
+// add body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// Add router
+// add static content
+app.use(express.static('public'));
+
+// add router
 app.use(router);
 
-// Add static content
-app.use(express.static('app/static'));
-
-// Add routes
+// routes
 app.use(Index.route);
 app.use(Admin.route);
 app.use(User.route);
 app.use(Product.route);
 app.use(Category.route);
 
+// set session user
 app.use((req, res, next) => {
   if(req.session && req.session.user) {
     User.query.get.byId(req.session.user.id)
@@ -67,7 +66,10 @@ app.use((req, res, next) => {
   }
 });
 
-// Add listener to server
+// set server port
+app.set('port', process.env.PORT || 3000);
+
+// add listener to server
 app.listen(app.get('port'), (req, res) => {
   console.log('listening on port ' + app.get('port'));
 });
