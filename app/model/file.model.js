@@ -1,8 +1,6 @@
 const formidable = require('formidable');
 const path = require('path');
 
-var files = [];
-
 exports.upload = (req, res, next) => {
   var form = new formidable.IncomingForm(),
   files = [];
