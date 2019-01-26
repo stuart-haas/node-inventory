@@ -27,19 +27,6 @@ app.set('views', 'app/views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// add static content
-app.use(express.static('public'));
-
-// add router
-app.use(router);
-
-// routes
-app.use(Index.route);
-app.use(Admin.route);
-app.use(User.route);
-app.use(Product.route);
-app.use(Category.route);
-
 // session store configuration
 app.use(session({
   key: 'sid',
@@ -65,6 +52,19 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+// add static content
+app.use(express.static('public'));
+
+// add router
+app.use(router);
+
+// add routes
+app.use(Index.route);
+app.use(Admin.route);
+app.use(User.route);
+app.use(Product.route);
+app.use(Category.route);
 
 // set server port
 app.set('port', process.env.PORT || 3000);
