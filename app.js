@@ -16,21 +16,12 @@ const User = require('./app/model/user.model');
 const Product = require('./app/model/product.model');
 const Category = require('./app/model/category.model');
 
-// set view engine to jade
-app.set('view engine', 'jade');
-app.set('views', 'app/views');
-
 // set locals
 app.locals.siteTitle = "Inventory";
 
-// configure session store
-app.use(session({
-  key: 'sid',
-  secret: 'secret',
-  store: sessionStore,
-  resave: false,
-  saveUninitialized: false
-}));
+// set view engine to jade
+app.set('view engine', 'jade');
+app.set('views', 'app/views');
 
 // add body parser
 app.use(bodyParser.json());
@@ -48,6 +39,15 @@ app.use(Admin.route);
 app.use(User.route);
 app.use(Product.route);
 app.use(Category.route);
+
+// session store configuration
+app.use(session({
+  key: 'sid',
+  secret: 'secret',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
+}));
 
 // set session user
 app.use((req, res, next) => {
