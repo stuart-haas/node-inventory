@@ -2,22 +2,25 @@ $(function(){
 
   $('.alert').delay(2500).fadeOut(250);
 
-  $(':file').on('fileselect', function(event, numFiles, label) {
-
-    var input = $(this).parents('.form-group').find('.custom-file-label'),
-    log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-    if( input.length ) {
-        input.text(log);
-    } else {
-      console.log(log);
-    }
+  $('#upload-button').on('click', function() {
+    $(this).prev(':file').click();
   });
 
-  $(document).on('change', ':file', function() {
+  $('#upload-file').on('fileselect', function(e, files) {
+    var $form = $(this).parents('#upload-form');
+    $form.submit();
+    var data = $form.serialize();
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      url: '/upload',
+      data: data
+    })
+  });
+
+  $(document).on('change', '#upload-file', function() {
     var input = $(this),
-    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
+    file = input.get(0).files;
+    input.trigger('fileselect', [file]);
   });
 });

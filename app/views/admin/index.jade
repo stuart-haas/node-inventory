@@ -1,0 +1,16 @@
+extends ../layout
+
+block header
+  include ../includes/navigation
+
+block content
+  div.container-fluid
+    div.row.wrapper
+      aside.col-3.sidebar
+        nav.nav.flex-column
+          a(href="/assets").nav-link.active Assets
+      main.col-9.content.pt-5
+        form(method="post", enctype="multipart/form-data", action="/upload").w-50.float-right.text-right#upload-form
+          div.form-group.button-group
+            input(type="file", name="upload", multiple="multiple")#upload-file
+            div.button#upload-button Upload

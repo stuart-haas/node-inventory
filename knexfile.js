@@ -5,8 +5,8 @@ module.exports = {
     connection: {
       host : '127.0.0.1',
       port: 3306,
-      user : 'local',
-      password : 'local',
+      user : 'root',
+      password : 'root',
       database : 'node_inventory',
       socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
     }

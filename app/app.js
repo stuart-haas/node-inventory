@@ -10,6 +10,7 @@ const knex = require('./db/knex.db');
 const sessionStore = new MySQLStore(knex.client.config.connection);
 
 const Index = require('./model/index.model');
+const Admin = require('./model/admin.model');
 const User = require('./model/user.model');
 const Product = require('./model/product.model');
 const Category = require('./model/category.model');
@@ -45,6 +46,7 @@ app.use(express.static('app/static'));
 
 // Add routes
 app.use(Index.route);
+app.use(Admin.route);
 app.use(User.route);
 app.use(Product.route);
 app.use(Category.route);

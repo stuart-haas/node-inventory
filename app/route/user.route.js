@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 const Session = require('../model/session.model');
 const User = require('../model/user.model');
-const File = require('../model/file.model');
 
 router.get('/profile', Session.requireLogin, (req, res) => {
   var path = req.path.replace(/\//g, "");
@@ -22,7 +21,7 @@ router.get('/profile', Session.requireLogin, (req, res) => {
 router.post('/profile/update', Session.requireLogin, (req, res) => {
   User.query.update(req)
     .then((user) => {
-      res.redirect('/profile?update=true');
+      res.redirect('/profile');
     });
 });
 
