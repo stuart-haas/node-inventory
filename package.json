@@ -2,7 +2,7 @@
   "name": "inventory",
   "version": "1.0.0",
   "description": "NodeJS, Express, and MySQL inventory application",
-  "main": "app/app.js",
+  "main": "app.js",
   "scripts": {
     "build:css": "gulp css",
     "build:js": "gulp js",

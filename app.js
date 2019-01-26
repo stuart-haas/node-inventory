@@ -6,14 +6,14 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const reload = require('reload');
 
-const knex = require('./db/knex.db');
+const knex = require('./app/db/knex.db');
 const sessionStore = new MySQLStore(knex.client.config.connection);
 
-const Index = require('./model/index.model');
-const Admin = require('./model/admin.model');
-const User = require('./model/user.model');
-const Product = require('./model/product.model');
-const Category = require('./model/category.model');
+const Index = require('./app/model/index.model');
+const Admin = require('./app/model/admin.model');
+const User = require('./app/model/user.model');
+const Product = require('./app/model/product.model');
+const Category = require('./app/model/category.model');
 
 // Set server port
 app.set('port', process.env.PORT || 3000);

@@ -1,7 +1,7 @@
 module.exports = {
     root: {
         src: "./src",
-        dest: "./app/static"
+        dest: "./public"
     },
 
     env: {
@@ -17,9 +17,9 @@ module.exports = {
 
         nodemon: {
             cmd: "nodemon",
-            script: "./app/app.js",
+            script: "app.js",
             ext: "jade js",
-            ignore: ["/src/", "/app/static/", "gulpfile.js", "gulpfile.config.js", "webpack.config.js"]
+            ignore: ["/src/", "/public/", "gulpfile.js", "gulpfile.config.js", "webpack.config.js"]
         },
 
         watch: {
